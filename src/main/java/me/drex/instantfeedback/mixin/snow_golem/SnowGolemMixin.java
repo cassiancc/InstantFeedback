@@ -1,6 +1,9 @@
 package me.drex.instantfeedback.mixin.snow_golem;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.drex.instantfeedback.duck.snow_golem.ISnowGolem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -8,9 +11,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,7 +44,7 @@ public abstract class SnowGolemMixin extends AbstractGolem implements ISnowGolem
         method = "addAdditionalSaveData",
         at = @At("TAIL")
     )
-    public void instantfeedback$addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
+    public void instantfeedback$addAdditionalSaveData(CompoundTag output, CallbackInfo ci) {
         output.putBoolean("PalePumpkin", this.instantfeedback$hasPalePumpkin());
     }
 
@@ -50,22 +52,22 @@ public abstract class SnowGolemMixin extends AbstractGolem implements ISnowGolem
         method = "readAdditionalSaveData",
         at = @At("TAIL")
     )
-    public void instantfeedback$readAdditionalSaveData(ValueInput tag, CallbackInfo ci) {
-        instantfeedback$setPalePumpkin(tag.getBooleanOr("PalePumpkin", false));
+    public void instantfeedback$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        instantfeedback$setPalePumpkin(tag.getBoolean("PalePumpkin"));
     }
 
-    @ModifyArg(
+    @WrapOperation(
         method = "performRangedAttack",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/projectile/Projectile;spawnProjectile(Lnet/minecraft/world/entity/projectile/Projectile;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Ljava/util/function/Consumer;)Lnet/minecraft/world/entity/projectile/Projectile;"
+            target = "Lnet/minecraft/world/entity/projectile/Snowball;shoot(DDDFF)V"
         )
     )
-    public <T extends Projectile> T instantfeedback$specialEffects(T projectile) {
+    public void instantfeedback$specialEffects(Snowball projectile, double d, double e, double f, float g, float h, Operation<Void> original) {
         if (instantfeedback$hasPalePumpkin()) {
             projectile.setRemainingFireTicks(100);
         }
-        return projectile;
+        original.call(projectile, d, e,f,g,h);
     }
 
     @Override

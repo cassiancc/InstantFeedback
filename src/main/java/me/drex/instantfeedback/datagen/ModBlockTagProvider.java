@@ -7,8 +7,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.tags.TagAppender;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -22,27 +20,27 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
-        this.valueLookupBuilder(BlockTags.ENDERMAN_HOLDABLE)
+        this.getOrCreateTagBuilder(BlockTags.ENDERMAN_HOLDABLE)
             .add(ModBlocks.PALE_PUMPKIN)
             .add(ModBlocks.CARVED_PALE_PUMPKIN);
 
-        this.valueLookupBuilder(BlockTags.MINEABLE_WITH_AXE)
+        this.getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_AXE)
             .add(ModBlocks.PALE_PUMPKIN)
             .add(ModBlocks.CARVED_PALE_PUMPKIN)
             .add(ModBlocks.PALE_BUSH, ModBlocks.TALL_PALE_BUSH);
 
-        this.valueLookupBuilder(BlockTags.SWORD_EFFICIENT)
+        this.getOrCreateTagBuilder(BlockTags.SWORD_EFFICIENT)
             .add(ModBlocks.PALE_PUMPKIN)
             .add(ModBlocks.CARVED_PALE_PUMPKIN)
             .add(ModBlocks.PALE_BUSH, ModBlocks.TALL_PALE_BUSH);
 
-        this.valueLookupBuilder(BlockTags.BEE_ATTRACTIVE)
+        this.getOrCreateTagBuilder(BlockTags.FLOWERS)
             .add(ModBlocks.PALE_ROSE);
 
-        this.valueLookupBuilder(BlockTags.SMALL_FLOWERS)
+        this.getOrCreateTagBuilder(BlockTags.SMALL_FLOWERS)
                 .add(ModBlocks.PALE_ROSE);
 
-        this.valueLookupBuilder(BlockTags.FLOWER_POTS)
+        this.getOrCreateTagBuilder(BlockTags.FLOWER_POTS)
             .add(ModBlocks.POTTED_PALE_ROSE)
             .add(ModBlocks.POTTED_CACTUS_FLOWER)
             .add(ModBlocks.POTTED_ROSE_BUSH)
@@ -51,13 +49,13 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             .add(ModBlocks.POTTED_SUNFLOWER)
             .add(ModBlocks.POTTED_PITCHER_PLANT);
 
-        this.valueLookupBuilder(BlockTags.REPLACEABLE_BY_TREES)
+        this.getOrCreateTagBuilder(BlockTags.REPLACEABLE_BY_TREES)
                 .add(ModBlocks.PALE_BUSH, ModBlocks.TALL_PALE_BUSH);
 
-        this.valueLookupBuilder(ModBlockTags.LEAVES_NEEDLES)
+        this.getOrCreateTagBuilder(ModBlockTags.LEAVES_NEEDLES)
             .add(Blocks.SPRUCE_LEAVES);
 
-        TagAppender<ResourceKey<Block>, Block> builder = this.builder(BlockTags.REPLACEABLE);
+        TagAppender<Block> builder = this.getOrCreateTagBuilder(BlockTags.REPLACEABLE);
         wrapperLookup.lookupOrThrow(Registries.BLOCK)
             .filterElements(block -> block.defaultBlockState().canBeReplaced())
             .listElementIds()

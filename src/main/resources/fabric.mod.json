@@ -2,17 +2,18 @@
 	"schemaVersion": 1,
 	"id": "instantfeedback",
 	"version": "${version}",
-	"name": "InstantFeedback",
-	"description": "Implements the most requested features from feedback.minecraft.net",
+	"name": "Perfect Parity: InstantFeedback",
+	"description": "Implements the most requested features from feedback.minecraft.net. An unofficial backport of InstantFeedback that works with the Perfect Parity mods.",
 	"authors": [
-		"Drex"
+		"Drex",
+		"cassiancc"
 	],
 	"license": "MIT",
 	"icon": "assets/instantfeedback/icon.png",
 	"contact": {
 		"homepage": "",
-		"issues": "https://github.com/DrexHD/InstantFeedback/issues",
-		"sources": "https://github.com/DrexHD/InstantFeedback/"
+		"issues": "https://github.com/cassiancc/InstantFeedback/issues",
+		"sources": "https://github.com/cassiancc/InstantFeedback/"
 	},
 	"environment": "*",
 	"entrypoints": {
@@ -37,12 +38,14 @@
 	"depends": {
 		"fabricloader": ">=0.16.5",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"perfect-parity-pg": "*",
+		"perfectparity": "*"
 	},
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/QCRt5BYV32"
+				"modmenu.discord": "https://discord.cassian.cc"
 			}
 		}
 	}

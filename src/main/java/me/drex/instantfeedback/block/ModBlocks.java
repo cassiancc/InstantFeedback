@@ -1,5 +1,6 @@
 package me.drex.instantfeedback.block;
 
+import com.perfectparity.world.level.block.DryVegetationBlock;
 import me.drex.instantfeedback.InstantFeedback;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,6 +18,8 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Function;
+
+import static com.perfectparity.world.level.block.ModBlocks.CACTUS_FLOWER;
 
 public class ModBlocks {
 
@@ -54,25 +57,25 @@ public class ModBlocks {
             .pushReaction(PushReaction.DESTROY));
 
     public static final Block POTTED_PALE_ROSE = register("potted_pale_rose",
-        properties -> new FlowerPotBlock(PALE_ROSE, properties), Blocks.flowerPotProperties());
+            Blocks.flowerPot(PALE_ROSE));
 
     public static final Block POTTED_CACTUS_FLOWER = register("potted_cactus_flower",
-        properties -> new FlowerPotBlock(Blocks.CACTUS_FLOWER, properties), Blocks.flowerPotProperties());
+            Blocks.flowerPot(CACTUS_FLOWER));
 
     public static final Block POTTED_ROSE_BUSH = register("potted_rose_bush",
-        properties -> new FlowerPotBlock(Blocks.ROSE_BUSH, properties), Blocks.flowerPotProperties());
+            Blocks.flowerPot(Blocks.ROSE_BUSH));
 
     public static final Block POTTED_PEONY = register("potted_peony",
-        properties -> new FlowerPotBlock(Blocks.PEONY, properties), Blocks.flowerPotProperties());
+            Blocks.flowerPot(Blocks.PEONY));
 
     public static final Block POTTED_LILAC = register("potted_lilac",
-        properties -> new FlowerPotBlock(Blocks.LILAC, properties), Blocks.flowerPotProperties());
+            Blocks.flowerPot(Blocks.LILAC));
 
     public static final Block POTTED_SUNFLOWER = register("potted_sunflower",
-        properties -> new FlowerPotBlock(Blocks.SUNFLOWER, properties), Blocks.flowerPotProperties());
+            Blocks.flowerPot(Blocks.SUNFLOWER));
 
     public static final Block POTTED_PITCHER_PLANT = register("potted_pitcher_plant",
-        properties -> new FlowerPotBlock(Blocks.PITCHER_PLANT, properties), Blocks.flowerPotProperties());
+            Blocks.flowerPot(Blocks.PITCHER_PLANT));
 
     public static final Block PALE_BUSH = register(
         "pale_bush",
@@ -122,7 +125,7 @@ public class ModBlocks {
     }
 
     public static Block register(ResourceKey<Block> resourceKey, Function<BlockBehaviour.Properties, Block> function, BlockBehaviour.Properties properties) {
-        Block block = function.apply(properties.setId(resourceKey));
+        Block block = function.apply(properties);
         return Registry.register(BuiltInRegistries.BLOCK, resourceKey, block);
     }
 
@@ -140,6 +143,10 @@ public class ModBlocks {
 
     private static Block register(String string, BlockBehaviour.Properties properties) {
         return register(string, Block::new, properties);
+    }
+
+    private static Block register(String string, Block block) {
+        return register(block, string);
     }
 
 }

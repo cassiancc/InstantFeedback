@@ -29,6 +29,17 @@ fabricApi {
 	configureDataGeneration()
 }
 
+repositories {
+    maven {
+        url = "https://api.modrinth.com/maven"
+    }
+	maven {
+		name = 'TerraformersMC'
+		url = 'https://maven.terraformersmc.com/'
+	}
+	maven { url = 'https://maven.minecraftforge.net/' }
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -36,6 +47,11 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "maven.modrinth:perfect-parity-1-21-5:${project.spring_to_life_version}"
+	modImplementation "maven.modrinth:perfect-parity-the-garden-awakens-edition:${project.garden_awakens_version}"
+	modImplementation 'com.github.glitchfiend:TerraBlender-fabric:1.21.1-4.1.0.8'
+	modRuntimeOnly "com.terraformersmc.terraform-api:terraform-wood-api-v1:11.0.0"
+
 }
 
 

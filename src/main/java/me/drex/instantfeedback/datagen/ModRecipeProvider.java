@@ -22,31 +22,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
-        return new RecipeProvider(registryLookup, exporter) {
-            @Override
-            public void buildRecipes() {
-                SuspiciousEffectHolder suspiciousEffectHolder = SuspiciousEffectHolder.tryGet(ModBlocks.PALE_ROSE);
-                assert suspiciousEffectHolder != null;
-                suspiciousStew(ModBlocks.PALE_ROSE, suspiciousEffectHolder);
-            }
+    public void buildRecipes(RecipeOutput recipeOutput) {
 
-            public void suspiciousStew(ItemLike item, SuspiciousEffectHolder suspiciousEffectHolder) {
-                ItemStack itemStack = new ItemStack(
-                    Items.SUSPICIOUS_STEW.builtInRegistryHolder(),
-                    1,
-                    DataComponentPatch.builder().set(DataComponents.SUSPICIOUS_STEW_EFFECTS, suspiciousEffectHolder.getSuspiciousEffects()).build()
-                );
-                this.shapeless(RecipeCategory.FOOD, itemStack)
-                    .requires(Items.BOWL)
-                    .requires(Items.BROWN_MUSHROOM)
-                    .requires(Items.RED_MUSHROOM)
-                    .requires(item)
-                    .group("suspicious_stew")
-                    .unlockedBy(getHasName(item), this.has(item))
-                    .save(this.output, getItemName(itemStack.getItem()) + "_from_" + getItemName(item));
-            }
-        };
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.drex.instantfeedback.worldgen;
 
+import com.perfectparitypg.world.level.block.ModBlocks;
 import me.drex.instantfeedback.InstantFeedback;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -45,7 +46,7 @@ public class ModVegetationPlacements {
             PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
             BiomeFilter.biome()
         );
-        PlacementUtils.register(bootstrapContext, FALLEN_PALE_OAK_CREAKING, fallenPaleOakCreaking, PlacementUtils.filteredByBlockSurvival(Blocks.PALE_OAK_SAPLING));
+        PlacementUtils.register(bootstrapContext, FALLEN_PALE_OAK_CREAKING, fallenPaleOakCreaking, PlacementUtils.filteredByBlockSurvival(ModBlocks.PALE_OAK_SAPLING));
 
         PlacementUtils.register(
             bootstrapContext,

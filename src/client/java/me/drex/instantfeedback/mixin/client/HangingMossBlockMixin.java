@@ -1,10 +1,10 @@
 package me.drex.instantfeedback.mixin.client;
 
+import com.perfectparitypg.world.level.block.HangingMossBlock;
 import me.drex.instantfeedback.InstantFeedback;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.HangingMossBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.spongepowered.asm.mixin.Final;
@@ -26,7 +26,7 @@ public abstract class HangingMossBlockMixin {
         at = @At("HEAD")
     )
     public void addParticle(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
-        if (randomSource.nextInt(100) == 0 && level.isDarkOutside()) {
+        if (randomSource.nextInt(100) == 0 && level.isNight()) {
             if (blockState.getValue(TIP)) {
                 level.addParticle(
                     InstantFeedback.CREAKING_EYES,

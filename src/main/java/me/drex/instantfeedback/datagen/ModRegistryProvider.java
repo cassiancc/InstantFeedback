@@ -18,7 +18,8 @@ public class ModRegistryProvider extends FabricDynamicRegistryProvider {
         entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE));
         entries.addAll(registries.lookupOrThrow(Registries.CONFIGURED_FEATURE));
         entries.addAll(registries.lookupOrThrow(Registries.FROG_VARIANT));
-        entries.addAll(registries.lookupOrThrow(Registries.PIG_VARIANT));
+        // TODO pig variants
+//        entries.addAll(registries.lookupOrThrow(Registries.PIG_VARIANT));
     }
 
     @Override

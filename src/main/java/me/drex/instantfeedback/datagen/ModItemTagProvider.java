@@ -15,7 +15,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
-        this.valueLookupBuilder(ItemTags.SMALL_FLOWERS)
+        this.getOrCreateTagBuilder(ItemTags.SMALL_FLOWERS)
             .add(ModItems.PALE_ROSE);
     }
 }

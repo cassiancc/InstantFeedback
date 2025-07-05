@@ -33,8 +33,8 @@ public class ModItems {
                 .register((itemGroup) -> {
                     itemGroup.addAfter(Items.JACK_O_LANTERN, PALE_PUMPKIN);
                     itemGroup.addAfter(PALE_PUMPKIN, CARVED_PALE_PUMPKIN);
-                    itemGroup.addAfter(Items.OPEN_EYEBLOSSOM, PALE_ROSE);
-                    itemGroup.addAfter(Items.PALE_HANGING_MOSS, PALE_BUSH);
+                    itemGroup.addAfter(com.perfectparitypg.world.level.block.ModBlocks.OPEN_EYEBLOSSOM, PALE_ROSE);
+                    itemGroup.addAfter(com.perfectparitypg.world.level.block.ModBlocks.PALE_HANGING_MOSS, PALE_BUSH);
                     itemGroup.addAfter(PALE_BUSH, TALL_PALE_BUSH);
                     itemGroup.addAfter(Blocks.PEARLESCENT_FROGLIGHT, CERULEAN_FROGLIGHT);
                 });
@@ -46,7 +46,7 @@ public class ModItems {
 
 
     private static Function<Item.Properties, Item> createBlockItemWithCustomItemName(Block block) {
-        return properties -> new BlockItem(block, properties.useItemDescriptionPrefix());
+        return properties -> new BlockItem(block, properties);
     }
 
     private static ResourceKey<Item> vanillaItemId(String path) {
@@ -87,7 +87,7 @@ public class ModItems {
 
     public static Item registerBlock(Block block, BiFunction<Block, Item.Properties, Item> biFunction, Item.Properties properties) {
         return registerItem(
-            blockIdToItemId(block.builtInRegistryHolder().key()), propertiesx -> biFunction.apply(block, propertiesx), properties.useBlockDescriptionPrefix()
+            blockIdToItemId(block.builtInRegistryHolder().key()), propertiesx -> biFunction.apply(block, propertiesx), properties
         );
     }
 
@@ -112,7 +112,7 @@ public class ModItems {
     }
 
     public static Item registerItem(ResourceKey<Item> resourceKey, Function<Item.Properties, Item> function, Item.Properties properties) {
-        Item item = function.apply(properties.setId(resourceKey));
+        Item item = function.apply(properties);
         if (item instanceof BlockItem blockItem) {
             blockItem.registerBlocks(Item.BY_BLOCK, item);
         }
