@@ -3,13 +3,13 @@
   "config": {
     "decorators": [
       {
-        "type": "minecraft:pale_moss",
+        "type": "vanillabackport:pale_moss",
         "ground_probability": 0.8,
         "leaves_probability": 0.25,
         "trunk_probability": 0.8
       },
       {
-        "type": "minecraft:creaking_heart",
+        "type": "vanillabackport:creaking_heart",
         "probability": 1.0
       }
     ],
@@ -27,7 +27,7 @@
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:pale_oak_leaves",
+        "Name": "vanillabackport:pale_oak_leaves",
         "Properties": {
           "distance": "7",
           "persistent": "false",
@@ -54,7 +54,7 @@
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:pale_oak_log",
+        "Name": "vanillabackport:pale_oak_log",
         "Properties": {
           "axis": "y"
         }

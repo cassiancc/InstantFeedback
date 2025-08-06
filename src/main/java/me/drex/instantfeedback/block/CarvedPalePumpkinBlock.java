@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.SnowGolem;
@@ -70,7 +69,7 @@ public class CarvedPalePumpkinBlock extends HorizontalDirectionalBlock {
     private void trySpawnGolem(Level level, BlockPos blockPos) {
         BlockPattern.BlockPatternMatch blockPatternMatch = this.getOrCreateSnowGolemFull().find(level, blockPos);
         if (blockPatternMatch != null) {
-            SnowGolem snowGolem = EntityType.SNOW_GOLEM.create(level, EntitySpawnReason.TRIGGERED);
+            SnowGolem snowGolem = EntityType.SNOW_GOLEM.create(level);
             if (snowGolem != null) {
                 snowGolem.setPumpkin(false);
                 ((ISnowGolem) snowGolem).instantfeedback$setPalePumpkin(true);
@@ -79,7 +78,7 @@ public class CarvedPalePumpkinBlock extends HorizontalDirectionalBlock {
         } else {
             BlockPattern.BlockPatternMatch blockPatternMatch2 = this.getOrCreateIronGolemFull().find(level, blockPos);
             if (blockPatternMatch2 != null) {
-                IronGolem ironGolem = EntityType.IRON_GOLEM.create(level, EntitySpawnReason.TRIGGERED);
+                IronGolem ironGolem = EntityType.IRON_GOLEM.create(level);
                 if (ironGolem != null) {
                     ironGolem.setPlayerCreated(true);
                     spawnGolemInWorld(level, blockPatternMatch2, ironGolem, blockPatternMatch2.getBlock(1, 2, 0).getPos());
@@ -90,7 +89,7 @@ public class CarvedPalePumpkinBlock extends HorizontalDirectionalBlock {
 
     private static void spawnGolemInWorld(Level level, BlockPattern.BlockPatternMatch blockPatternMatch, Entity entity, BlockPos blockPos) {
         CarvedPumpkinBlock.clearPatternBlocks(level, blockPatternMatch);
-        entity.snapTo(blockPos.getX() + 0.5, blockPos.getY() + 0.05, blockPos.getZ() + 0.5, 0.0F, 0.0F);
+        entity.moveTo(blockPos.getX() + 0.5, blockPos.getY() + 0.05, blockPos.getZ() + 0.5, 0.0F, 0.0F);
         level.addFreshEntity(entity);
 
         for (ServerPlayer serverPlayer : level.getEntitiesOfClass(ServerPlayer.class, entity.getBoundingBox().inflate(5.0))) {

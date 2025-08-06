@@ -12,6 +12,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 
+import static com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_SAPLING;
+
 public class ModVegetationPlacements {
 
     public static final PlacementModifier HEIGHTMAP_NO_LEAVES = HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES);
@@ -45,7 +47,7 @@ public class ModVegetationPlacements {
             PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
             BiomeFilter.biome()
         );
-        PlacementUtils.register(bootstrapContext, FALLEN_PALE_OAK_CREAKING, fallenPaleOakCreaking, PlacementUtils.filteredByBlockSurvival(Blocks.PALE_OAK_SAPLING));
+        PlacementUtils.register(bootstrapContext, FALLEN_PALE_OAK_CREAKING, fallenPaleOakCreaking, PlacementUtils.filteredByBlockSurvival(PALE_OAK_SAPLING.get()));
 
         PlacementUtils.register(
             bootstrapContext,

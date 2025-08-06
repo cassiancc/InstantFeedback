@@ -8,7 +8,7 @@
           "to_place": {
             "type": "minecraft:simple_state_provider",
             "state": {
-              "Name": "minecraft:pale_oak_leaves",
+              "Name": "vanillabackport:pale_oak_leaves",
               "Properties": {
                 "distance": "7",
                 "persistent": "true",
@@ -32,7 +32,7 @@
                 "type": "minecraft:matching_blocks",
                 "blocks": [
                   "minecraft:grass_block",
-                  "minecraft:pale_oak_leaves"
+                  "vanillabackport:pale_oak_leaves"
                 ],
                 "offset": [
                   0,

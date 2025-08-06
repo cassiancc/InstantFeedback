@@ -1,15 +1,15 @@
 {
   "type": "minecraft:random_selector",
   "config": {
-    "default": "minecraft:pale_oak_checked",
+    "default": "vanillabackport:pale_oak_checked",
     "features": [
       {
         "chance": 0.2,
-        "feature": "minecraft:pale_oak_creaking_checked"
+        "feature": "vanillabackport:pale_oak_creaking_checked"
       },
       {
         "chance": 0.8,
-        "feature": "minecraft:pale_oak_checked"
+        "feature": "vanillabackport:pale_oak_checked"
       },
       {
         "chance": 0.8,

@@ -1,5 +1,8 @@
 package me.drex.instantfeedback.worldgen;
 
+import com.blackgear.vanillabackport.common.worldgen.placements.TheGardenAwakensPlacements;
+import com.blackgear.vanillabackport.common.worldgen.treedecorators.CreakingHeartDecorator;
+import com.blackgear.vanillabackport.common.worldgen.treedecorators.PaleMossDecorator;
 import com.google.common.collect.ImmutableList;
 import me.drex.instantfeedback.InstantFeedback;
 import me.drex.instantfeedback.block.CarvedPalePumpkinBlock;
@@ -11,10 +14,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.data.worldgen.placement.TreePlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.random.WeightedList;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -31,12 +33,12 @@ import net.minecraft.world.level.levelgen.feature.featuresize.ThreeLayersFeature
 import net.minecraft.world.level.levelgen.feature.foliageplacers.DarkOakFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.feature.treedecorators.CreakingHeartDecorator;
-import net.minecraft.world.level.levelgen.feature.treedecorators.PaleMossDecorator;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import java.util.List;
 import java.util.OptionalInt;
+
+import static com.blackgear.vanillabackport.common.registries.ModBlocks.*;
 
 public class ModVegetationFeatures {
 
@@ -48,8 +50,8 @@ public class ModVegetationFeatures {
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> bootstrapContext) {
         HolderGetter<PlacedFeature> placedFeatures = bootstrapContext.lookup(Registries.PLACED_FEATURE);
-        Holder<PlacedFeature> paleOakChecked = placedFeatures.getOrThrow(TreePlacements.PALE_OAK_CHECKED);
-        Holder<PlacedFeature> paleOakCreakingChecked = placedFeatures.getOrThrow(TreePlacements.PALE_OAK_CREAKING_CHECKED);
+        Holder<PlacedFeature> paleOakChecked = placedFeatures.getOrThrow(TheGardenAwakensPlacements.PALE_OAK_CHECKED);
+        Holder<PlacedFeature> paleOakCreakingChecked = placedFeatures.getOrThrow(TheGardenAwakensPlacements.PALE_OAK_CREAKING_CHECKED);
         Holder<PlacedFeature> fallenPaleOakCreakingChecked = placedFeatures.getOrThrow(ModVegetationPlacements.FALLEN_PALE_OAK_CREAKING);
 
         FeatureUtils.register(
@@ -58,7 +60,7 @@ public class ModVegetationFeatures {
             Feature.RANDOM_PATCH,
             FeatureUtils.simplePatchConfiguration(
                 Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new WeightedStateProvider(
-                    WeightedList.<BlockState>builder()
+                    SimpleWeightedRandomList.<BlockState>builder()
                         .add(ModBlocks.PALE_PUMPKIN.defaultBlockState(), 20)
                         .add(ModBlocks.CARVED_PALE_PUMPKIN.defaultBlockState().setValue(CarvedPalePumpkinBlock.FACING, Direction.NORTH), 1)
                         .add(ModBlocks.CARVED_PALE_PUMPKIN.defaultBlockState().setValue(CarvedPalePumpkinBlock.FACING, Direction.EAST), 1)
@@ -72,8 +74,8 @@ public class ModVegetationFeatures {
         FeatureUtils.register(
             bootstrapContext, PILE_PALE_LEAVES, Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(
                 Feature.SIMPLE_BLOCK,
-                new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.PALE_OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true))),
-                List.of(Blocks.GRASS_BLOCK, Blocks.PALE_OAK_LEAVES)
+                new SimpleBlockConfiguration(BlockStateProvider.simple(PALE_OAK_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT, true))),
+                List.of(Blocks.GRASS_BLOCK, PALE_OAK_LEAVES.get())
             )
         );
 
@@ -84,13 +86,13 @@ public class ModVegetationFeatures {
             new RandomPatchConfiguration(164, 16, 8, PlacementUtils.filtered(
                 Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(new WeightedStateProvider(
-                    WeightedList.<BlockState>builder()
+                        SimpleWeightedRandomList.<BlockState>builder()
                         .add(ModBlocks.PALE_ROSE.defaultBlockState(), 1)
                         .add(ModBlocks.PALE_BUSH.defaultBlockState(), 5)
                         .add(ModBlocks.TALL_PALE_BUSH.defaultBlockState(), 5)
-                        .add(Blocks.PALE_MOSS_CARPET.defaultBlockState(), 10)
+                        .add(PALE_MOSS_CARPET.get().defaultBlockState(), 10)
                 )),
-                BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(Direction.DOWN.getUnitVec3i(), List.of(Blocks.GRASS_BLOCK)))
+                BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(Direction.DOWN.getNormal(), List.of(Blocks.GRASS_BLOCK)))
             )
             )
         );
@@ -100,9 +102,9 @@ public class ModVegetationFeatures {
             FALLEN_PALE_OAK_CREAKING,
             Feature.TREE,
             new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(Blocks.PALE_OAK_LOG),
+                BlockStateProvider.simple(PALE_OAK_LOG.get()),
                 new FallenDarkOakTrunkPlacer(6, 2, 1),
-                BlockStateProvider.simple(Blocks.PALE_OAK_LEAVES),
+                BlockStateProvider.simple(PALE_OAK_LEAVES.get()),
                 new DarkOakFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0)),
                 new ThreeLayersFeatureSize(1, 1, 0, 1, 2, OptionalInt.empty())
             )

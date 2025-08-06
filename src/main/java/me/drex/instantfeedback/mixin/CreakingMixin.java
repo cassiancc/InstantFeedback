@@ -1,6 +1,6 @@
 package me.drex.instantfeedback.mixin;
 
-import net.minecraft.world.entity.monster.creaking.Creaking;
+import com.blackgear.vanillabackport.common.level.entities.creaking.Creaking;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
@@ -10,7 +10,7 @@ public abstract class CreakingMixin {
 
     @ModifyConstant(
         method = "createAttributes",
-        constant = @Constant(doubleValue = 0.4000000059604645)
+        constant = @Constant(doubleValue = 0.4)
     )
     private static double increaseMovementSpeed(double constant) {
         return 0.45F;
