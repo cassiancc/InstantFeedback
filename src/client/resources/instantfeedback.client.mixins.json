@@ -3,8 +3,7 @@
   "package": "me.drex.instantfeedback.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "snow_golem.SnowGolemHeadLayerMixin",
-    "snow_golem.SnowGolemRenderStateMixin"
+    "snow_golem.SnowGolemHeadLayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
