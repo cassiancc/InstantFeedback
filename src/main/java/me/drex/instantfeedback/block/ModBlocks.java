@@ -18,6 +18,8 @@ import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Function;
 
+import static com.blackgear.vanillabackport.common.registries.ModBlocks.CACTUS_FLOWER;
+
 public class ModBlocks {
 
     public static final Block PALE_PUMPKIN = register(
@@ -47,7 +49,7 @@ public class ModBlocks {
         properties -> new FlowerBlock(MobEffects.GLOWING, 5.0F, properties),
         BlockBehaviour.Properties.of()
             .mapColor(DyeColor.WHITE)
-            .noCollision()
+            .noCollission()
             .instabreak()
             .sound(SoundType.GRASS)
             .offsetType(BlockBehaviour.OffsetType.XZ)
@@ -56,8 +58,8 @@ public class ModBlocks {
     public static final Block POTTED_PALE_ROSE = register("potted_pale_rose",
         properties -> new FlowerPotBlock(PALE_ROSE, properties), Blocks.FLOWER_POT.properties());
 
-//    public static final Block POTTED_CACTUS_FLOWER = register("potted_cactus_flower",
-//        properties -> new FlowerPotBlock(CACTUS_FLOWER, properties), Blocks.FLOWER_POT.properties()));
+    public static final Block POTTED_CACTUS_FLOWER = register("potted_cactus_flower",
+        properties -> new FlowerPotBlock(CACTUS_FLOWER.get(), properties), Blocks.FLOWER_POT.properties());
 
     public static final Block POTTED_ROSE_BUSH = register("potted_rose_bush",
         properties -> new FlowerPotBlock(Blocks.ROSE_BUSH, properties), Blocks.FLOWER_POT.properties());
@@ -80,7 +82,7 @@ public class ModBlocks {
         BlockBehaviour.Properties.of()
             .mapColor(MapColor.TERRACOTTA_BROWN)
             .replaceable()
-            .noCollision()
+            .noCollission()
             .instabreak()
             .sound(SoundType.GRASS)
             .ignitedByLava()
@@ -93,7 +95,7 @@ public class ModBlocks {
         BlockBehaviour.Properties.of()
             .mapColor(MapColor.TERRACOTTA_BROWN)
             .replaceable()
-            .noCollision()
+            .noCollission()
             .instabreak()
             .sound(SoundType.GRASS)
             .offsetType(BlockBehaviour.OffsetType.XZ)

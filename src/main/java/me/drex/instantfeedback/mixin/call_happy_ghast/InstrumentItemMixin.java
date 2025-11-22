@@ -1,7 +1,7 @@
 package me.drex.instantfeedback.mixin.call_happy_ghast;
 
+import com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast;
 import me.drex.instantfeedback.duck.IHappyGhast;
-import net.minecraft.world.entity.animal.HappyGhast;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Instrument;
 import net.minecraft.world.item.InstrumentItem;

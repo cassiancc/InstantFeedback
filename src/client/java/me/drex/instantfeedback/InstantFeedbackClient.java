@@ -19,7 +19,7 @@ public class InstantFeedbackClient implements ClientModInitializer {
                 ModBlocks.PALE_BUSH,
                 ModBlocks.TALL_PALE_BUSH,
                 ModBlocks.POTTED_PALE_ROSE,
-//                ModBlocks.POTTED_CACTUS_FLOWER,
+                ModBlocks.POTTED_CACTUS_FLOWER,
                 ModBlocks.POTTED_ROSE_BUSH,
                 ModBlocks.POTTED_PEONY,
                 ModBlocks.POTTED_LILAC,

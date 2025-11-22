@@ -16,10 +16,12 @@ import java.util.Map;
 public class ModCauldronInteraction {
     public static void bootstrap() {
         Map<Item, CauldronInteraction> map = CauldronInteraction.WATER.map();
+        /* FIXME 1.21.2
         for (BundleItem bundleItem : BundleItem.getAllBundleItemColors()) {
             if (bundleItem.equals(Items.BUNDLE)) continue;
             map.put(bundleItem, ModCauldronInteraction::bundleInteraction);
         }
+         */
     }
 
     private static InteractionResult bundleInteraction(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, ItemStack itemStack) {

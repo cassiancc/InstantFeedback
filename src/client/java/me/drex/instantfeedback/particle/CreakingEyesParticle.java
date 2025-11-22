@@ -30,7 +30,7 @@ public class CreakingEyesParticle extends SimpleAnimatedParticle {
         }
 
         @Override
-        public @Nullable Particle createParticle(SimpleParticleType particleOptions, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i, RandomSource randomSource) {
+        public @Nullable Particle createParticle(SimpleParticleType particleOptions, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
             return new CreakingEyesParticle(clientLevel, d, e, f, this.sprites);
         }
     }

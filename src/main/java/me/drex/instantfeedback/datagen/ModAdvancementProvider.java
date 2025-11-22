@@ -23,6 +23,9 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import static com.blackgear.vanillabackport.common.registries.ModEntities.HAPPY_GHAST;
+import static com.blackgear.vanillabackport.common.registries.ModItems.WHITE_HARNESS;
+
 public class ModAdvancementProvider extends FabricAdvancementProvider {
     protected ModAdvancementProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
@@ -35,17 +38,17 @@ public class ModAdvancementProvider extends FabricAdvancementProvider {
         //noinspection removal
         Advancement.Builder.advancement()
             .parent(ResourceLocation.withDefaultNamespace("end/root"))
-            .display(Items.WHITE_HARNESS, Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.title"), Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.description"), null, AdvancementType.CHALLENGE, true, true, false)
+            .display(WHITE_HARNESS.get(), Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.title"), Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.description"), null, AdvancementType.CHALLENGE, true, true, false)
             .addCriterion(
                 "ride_happy_ghast",
                 PlayerInteractTrigger.TriggerInstance.itemUsedOnEntity(
                     ItemPredicate.Builder.item(), Optional.of(EntityPredicate.wrap(
-                        EntityPredicate.Builder.entity().of(entityGetter, EntityType.HAPPY_GHAST)
+                        EntityPredicate.Builder.entity().of(HAPPY_GHAST.get())
                             .located(LocationPredicate.Builder.inDimension(Level.END))
                     ))
                 )
             )
-            .save(consumer, InstantFeedback.id("end/ride_happy_ghast"));
+            .save(consumer, InstantFeedback.id("end/ride_happy_ghast").toString());
 
     }
 }

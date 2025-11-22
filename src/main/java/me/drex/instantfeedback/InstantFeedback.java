@@ -4,6 +4,7 @@ import com.blackgear.vanillabackport.common.registries.ModBiomes;
 import com.blackgear.vanillabackport.common.worldgen.placements.TheGardenAwakensPlacements;
 import me.drex.instantfeedback.block.ModBlocks;
 import me.drex.instantfeedback.entity.ModFrogVariants;
+import me.drex.instantfeedback.entity.ModPigVariants;
 import me.drex.instantfeedback.item.ModCauldronInteraction;
 import me.drex.instantfeedback.item.ModItems;
 import me.drex.instantfeedback.worldgen.FallenDarkOakTrunkPlacer;
@@ -11,6 +12,7 @@ import me.drex.instantfeedback.worldgen.ModVegetationPlacements;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.advancements.critereon.DamageSourcePredicate;
@@ -98,9 +100,13 @@ public class InstantFeedback implements ModInitializer {
         });
 
         ModCauldronInteraction.bootstrap();
+
+        ServerLifecycleEvents.SERVER_STARTING.register((minecraftServer -> {
+            ModPigVariants.bootstrap(minecraftServer.registryAccess());
+        }));
     }
 
-    public static String id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path).toString();
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

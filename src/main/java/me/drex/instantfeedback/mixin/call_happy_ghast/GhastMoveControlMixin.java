@@ -1,5 +1,6 @@
 package me.drex.instantfeedback.mixin.call_happy_ghast;
 
+import com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast;
 import me.drex.instantfeedback.duck.IHappyGhast;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Ghast.GhastMoveControl.class)
+@Mixin(targets = "com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast.HappyGhastMoveControl")
 public abstract class GhastMoveControlMixin {
     @Shadow
     @Final
