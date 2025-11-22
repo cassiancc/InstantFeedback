@@ -4,6 +4,7 @@ import com.blackgear.vanillabackport.common.registries.ModBiomes;
 import com.blackgear.vanillabackport.common.worldgen.placements.TheGardenAwakensPlacements;
 import me.drex.instantfeedback.block.ModBlocks;
 import me.drex.instantfeedback.entity.ModFrogVariants;
+import me.drex.instantfeedback.item.ModCauldronInteraction;
 import me.drex.instantfeedback.item.ModItems;
 import me.drex.instantfeedback.worldgen.FallenDarkOakTrunkPlacer;
 import me.drex.instantfeedback.worldgen.ModVegetationPlacements;
@@ -30,6 +31,8 @@ import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 public class InstantFeedback implements ModInitializer {
 
@@ -93,5 +96,11 @@ public class InstantFeedback implements ModInitializer {
                 });
             }
         });
+
+        ModCauldronInteraction.bootstrap();
+    }
+
+    public static String id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path).toString();
     }
 }

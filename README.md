@@ -1,5 +1,14 @@
 A fabric mod implementing features requested on minecraft feedback pages!
 
+# Chase the Skies
+
+Feedback: [Chase the Skies](https://feedback.minecraft.net/hc/en-us/community/topics/35301401438605-Chase-the-Skies)
+
+- Happy Ghasts are now affected by speed potions *(Added flying speed attribute to speed potions)*
+- Bundles can be undyed in cauldrons
+- Friends 'Till The End advancement
+- Happy Ghast calling mechanic *(Goat horns can be used to make them fly towards you)*
+
 # Spring to Life
 
 Feedback: [Spring to Life](https://feedback.minecraft.net/hc/en-us/community/topics/33267006417549-Spring-to-Life)
