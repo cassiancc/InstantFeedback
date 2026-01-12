@@ -1,6 +1,7 @@
 package me.drex.instantfeedback.mixin.call_happy_ghast;
 
 import com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast;
+import me.drex.instantfeedback.config.ConfigManager;
 import me.drex.instantfeedback.duck.IHappyGhast;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Instrument;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class InstrumentItemMixin {
     @Inject(method = "play", at = @At("TAIL"))
     private static void callGhasts(Level level, Player player, Instrument instrument, CallbackInfo ci) {
+        if (!ConfigManager.config().chaseTheSkiesHappyGhastCalling) return;
         for (HappyGhast happyGhast : level.getEntitiesOfClass(HappyGhast.class, player.getBoundingBox().inflate(64))) {
             ((IHappyGhast)happyGhast).instantfeedback$setCallerPosition(player.position());
         }

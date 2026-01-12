@@ -3,6 +3,7 @@ package me.drex.instantfeedback;
 import com.blackgear.vanillabackport.common.registries.ModBiomes;
 import com.blackgear.vanillabackport.common.worldgen.placements.TheGardenAwakensPlacements;
 import me.drex.instantfeedback.block.ModBlocks;
+import me.drex.instantfeedback.config.ConfigManager;
 import me.drex.instantfeedback.entity.ModFrogVariants;
 import me.drex.instantfeedback.entity.ModPigVariants;
 import me.drex.instantfeedback.item.ModCauldronInteraction;
@@ -48,37 +49,49 @@ public class InstantFeedback implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, "creaking_eyes"), CREAKING_EYES);
-        Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, "tinted_needles"), TINTED_NEEDLES);
+        ConfigManager.load();
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "creaking_eyes"), CREAKING_EYES);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "tinted_needles"), TINTED_NEEDLES);
         ModBlocks.initialize();
         ModFrogVariants.inititalize();
         ModItems.initialize();
-        BiomeModifications.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "pale_garden_remove_spawn"))
-            .add(ModificationPhase.REMOVALS, context -> context.getBiomeKey() == ModBiomes.PALE_GARDEN, context -> {
-                context.getSpawnSettings().clearSpawns();
-            });
+        if (ConfigManager.config().theGardenAwakensRemoveMobSpawn) {
+            BiomeModifications.create(Identifier.fromNamespaceAndPath(MOD_ID, "pale_garden_remove_spawn"))
+                .add(ModificationPhase.REMOVALS, context -> context.getBiomeKey() == Biomes.PALE_GARDEN, context -> {
+                    context.getSpawnSettings().clearSpawns();
+                });
+        }
+        if (ConfigManager.config().theGardenAwakensWorldGen) {
+            BiomeModifications.create(Identifier.fromNamespaceAndPath(MOD_ID, "pale_garden_replace_vegetation"))
+                .add(ModificationPhase.REPLACEMENTS, context -> context.getBiomeKey() == Biomes.PALE_GARDEN, context -> {
+                    context.getGenerationSettings().removeFeature(VegetationPlacements.PALE_GARDEN_VEGETATION);
+                    context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModVegetationPlacements.PALE_GARDEN_VEGETATION);
+                });
+            BiomeModifications.addFeature(
+                context -> context.getBiomeKey() == Biomes.PALE_GARDEN,
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModVegetationPlacements.PATCH_PALE_PUMPKIN
+            );
+            BiomeModifications.addFeature(
+                context -> context.getBiomeKey() == Biomes.PALE_GARDEN,
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModVegetationPlacements.PILE_PALE_LEAVES
+            );
+            BiomeModifications.addFeature(
+                context -> context.getBiomeKey() == Biomes.PALE_GARDEN,
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModVegetationPlacements.PALE_VEGETATION
+            );
+        }
 
-        BiomeModifications.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, "pale_garden_replace_vegetation"))
-            .add(ModificationPhase.REPLACEMENTS, context -> context.getBiomeKey() == ModBiomes.PALE_GARDEN, context -> {
-                context.getGenerationSettings().removeFeature(TheGardenAwakensPlacements.PALE_GARDEN_VEGETATION);
-                context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModVegetationPlacements.PALE_GARDEN_VEGETATION);
-            });
+        if (ConfigManager.config().theGardenAwakensFog) {
+            BiomeModifications.create(Identifier.fromNamespaceAndPath(MOD_ID, "pale_garden_environment_fog"))
+                .add(ModificationPhase.ADDITIONS, context -> context.getBiomeKey() == Biomes.PALE_GARDEN, context -> {
+                    context.getAttributes().setModifier(EnvironmentAttributes.FOG_END_DISTANCE, FloatModifier.MULTIPLY, 1 / 16f);
+                });
+        }
 
-        BiomeModifications.addFeature(
-            context -> context.getBiomeKey() == ModBiomes.PALE_GARDEN,
-            GenerationStep.Decoration.VEGETAL_DECORATION,
-            ModVegetationPlacements.PATCH_PALE_PUMPKIN
-        );
-        BiomeModifications.addFeature(
-            context -> context.getBiomeKey() == ModBiomes.PALE_GARDEN,
-            GenerationStep.Decoration.VEGETAL_DECORATION,
-            ModVegetationPlacements.PILE_PALE_LEAVES
-        );
-        BiomeModifications.addFeature(
-            context -> context.getBiomeKey() == ModBiomes.PALE_GARDEN,
-            GenerationStep.Decoration.VEGETAL_DECORATION,
-            ModVegetationPlacements.PALE_VEGETATION
-        );
+
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             var magmaCube = EntityType.MAGMA_CUBE.getDefaultLootTable();
             if (magmaCube.equals(key) && source.isBuiltin()) {
