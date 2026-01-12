@@ -16,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class InstrumentItemMixin {
     @Inject(method = "play", at = @At("TAIL"))
     private static void callGhasts(Level level, Player player, Instrument instrument, CallbackInfo ci) {
-        if (!ConfigManager.config().chaseTheSkiesHappyGhastCalling) return;
-        for (HappyGhast happyGhast : level.getEntitiesOfClass(HappyGhast.class, player.getBoundingBox().inflate(64))) {
-            ((IHappyGhast)happyGhast).instantfeedback$setCallerPosition(player.position());
-        }
+//        if (!ConfigManager.config().chaseTheSkiesHappyGhastCalling) return;
+//        for (HappyGhast happyGhast : level.getEntitiesOfClass(HappyGhast.class, player.getBoundingBox().inflate(64))) {
+//            ((IHappyGhast)happyGhast).instantfeedback$setCallerPosition(player.position());
+//        }
     }
 }

@@ -37,7 +37,7 @@ public class ModAdvancementProvider extends FabricAdvancementProvider {
 
         //noinspection removal
         Advancement.Builder.advancement()
-            .parent(Identifier.withDefaultNamespace("end/kill_dragon"))
+            .parent(ResourceLocation.withDefaultNamespace("end/kill_dragon"))
             .display(WHITE_HARNESS.get(), Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.title"), Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.description"), null, AdvancementType.CHALLENGE, true, true, false)
             .addCriterion(
                 "ride_happy_ghast",
