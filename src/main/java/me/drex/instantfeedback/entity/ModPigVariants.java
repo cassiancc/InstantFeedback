@@ -1,8 +1,8 @@
 package me.drex.instantfeedback.entity;
 
-import com.blackgear.vanillabackport.common.api.variant.BiomeCheck;
 import com.blackgear.vanillabackport.common.api.variant.ModelAndTexture;
-import com.blackgear.vanillabackport.common.api.variant.SpawnPrioritySelectors;
+import com.blackgear.vanillabackport.common.api.variant.spawn.SpawnPrioritySelectors;
+import com.blackgear.vanillabackport.common.api.variant.spawn.check.BiomeCheck;
 import com.blackgear.vanillabackport.common.level.entities.animal.PigVariant;
 import com.blackgear.vanillabackport.core.VanillaBackport;
 import com.blackgear.vanillabackport.core.data.tags.ModBiomeTags;

@@ -25,6 +25,17 @@ repositories {
 			includeGroup "maven.modrinth"
 		}
 	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://maven.bawnorton.com/releases"
+			}
+		}
+		filter {
+			includeGroup "com.github.bawnorton.mixinsquared"
+		}
+	}
 }
 
 loom {
@@ -54,6 +65,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "maven.modrinth:vanillabackport:${vanillabackport_version}"
 	modImplementation "maven.modrinth:platform:${platform_version}"
+	implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.7-beta.1"))
 }
 
 
