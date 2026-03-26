@@ -7,7 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -30,31 +30,36 @@ public class ModItems {
 
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS)
-                .register((itemGroup) -> {
-                    itemGroup.addAfter(Items.JACK_O_LANTERN, PALE_PUMPKIN);
-                    itemGroup.addAfter(PALE_PUMPKIN, CARVED_PALE_PUMPKIN);
-                    itemGroup.addAfter(Items.OPEN_EYEBLOSSOM, PALE_ROSE);
-                    itemGroup.addAfter(Items.PALE_HANGING_MOSS, PALE_BUSH);
-                    itemGroup.addAfter(PALE_BUSH, TALL_PALE_BUSH);
-                    itemGroup.addAfter(Blocks.PEARLESCENT_FROGLIGHT, CERULEAN_FROGLIGHT);
+                .register((entries) -> {
+
+                    entries.addAfter(Items.JACK_O_LANTERN, PALE_PUMPKIN);
+                    entries.addAfter(PALE_PUMPKIN, CARVED_PALE_PUMPKIN);
+
+                    entries.addBefore(Items.WITHER_ROSE, PALE_ROSE);
+
+                    entries.addAfter(Items.DEAD_BUSH, PALE_BUSH);
+
+                    entries.addAfter(Items.LARGE_FERN, TALL_PALE_BUSH);
+
+                    entries.addAfter(Items.VERDANT_FROGLIGHT, CERULEAN_FROGLIGHT);
                 });
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS)
                 .register((itemGroup) -> {
-                    itemGroup.addAfter(Blocks.PEARLESCENT_FROGLIGHT, CERULEAN_FROGLIGHT);
+                    itemGroup.addAfter(Blocks.VERDANT_FROGLIGHT, CERULEAN_FROGLIGHT);
                 });
     }
 
 
     private static Function<Item.Properties, Item> createBlockItemWithCustomItemName(Block block) {
-        return properties -> new BlockItem(block, properties.useItemDescriptionPrefix());
+        return properties -> new BlockItem(block, properties);
     }
 
     private static ResourceKey<Item> vanillaItemId(String path) {
-        return ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(InstantFeedback.MOD_ID, path));
+        return ResourceKey.create(Registries.ITEM, new ResourceLocation(InstantFeedback.MOD_ID, path));
     }
 
     private static ResourceKey<Item> blockIdToItemId(ResourceKey<Block> resourceKey) {
-        return ResourceKey.create(Registries.ITEM, resourceKey.identifier());
+        return ResourceKey.create(Registries.ITEM, resourceKey.location());
     }
 
     public static Item registerBlock(Block block) {
@@ -87,7 +92,7 @@ public class ModItems {
 
     public static Item registerBlock(Block block, BiFunction<Block, Item.Properties, Item> biFunction, Item.Properties properties) {
         return registerItem(
-            blockIdToItemId(block.builtInRegistryHolder().key()), propertiesx -> biFunction.apply(block, propertiesx), properties.useBlockDescriptionPrefix()
+            blockIdToItemId(block.builtInRegistryHolder().key()), propertiesx -> biFunction.apply(block, propertiesx), properties
         );
     }
 
@@ -112,7 +117,7 @@ public class ModItems {
     }
 
     public static Item registerItem(ResourceKey<Item> resourceKey, Function<Item.Properties, Item> function, Item.Properties properties) {
-        Item item = function.apply(properties.setId(resourceKey));
+        Item item = function.apply(properties);
         if (item instanceof BlockItem blockItem) {
             blockItem.registerBlocks(Item.BY_BLOCK, item);
         }

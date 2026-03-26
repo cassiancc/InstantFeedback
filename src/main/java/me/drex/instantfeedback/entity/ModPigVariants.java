@@ -1,27 +1,14 @@
 package me.drex.instantfeedback.entity;
 
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import com.blackgear.vanillabackport.common.level.entities.animal.PigVariant;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.animal.pig.PigVariant;
-import net.minecraft.world.entity.variant.BiomeCheck;
-import net.minecraft.world.entity.variant.ModelAndTexture;
-import net.minecraft.world.entity.variant.SpawnPrioritySelectors;
-
-import static me.drex.instantfeedback.InstantFeedback.MOD_ID;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModPigVariants {
-    public static final ResourceKey<PigVariant> MUDDY = createKey("muddy");
+    public static final ResourceKey<Registry<PigVariant>> PIG_VARIANT_REGISTRY =
+            ResourceKey.createRegistryKey(new ResourceLocation("minecraft", "pig_variant"));
 
-    private static ResourceKey<PigVariant> createKey(String path) {
-        return ResourceKey.create(Registries.PIG_VARIANT, Identifier.fromNamespaceAndPath(MOD_ID, path));
-    }
-
-    public static void bootstrap(BootstrapContext<PigVariant> bootstrapContext) {
-        var holderSet = bootstrapContext.lookup(Registries.BIOME).getOrThrow(ConventionalBiomeTags.IS_SWAMP);
-        var spawnPrioritySelectors = SpawnPrioritySelectors.single(new BiomeCheck(holderSet), 1);
-        bootstrapContext.register(ModPigVariants.MUDDY, new PigVariant(new ModelAndTexture<>(PigVariant.ModelType.NORMAL, Identifier.fromNamespaceAndPath(MOD_ID, "entity/pig/muddy_pig")), spawnPrioritySelectors));
-    }
+    public static final ResourceKey<PigVariant> MUDDY =
+            ResourceKey.create(PIG_VARIANT_REGISTRY, new ResourceLocation("instantfeedback", "muddy"));
 }

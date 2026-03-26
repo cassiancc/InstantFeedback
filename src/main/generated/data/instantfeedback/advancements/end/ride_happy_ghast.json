@@ -1,0 +1,45 @@
+{
+  "parent": "minecraft:end/kill_dragon",
+  "criteria": {
+    "ride_happy_ghast": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "vehicle": {
+                "type": "minecraft:happy_ghast",
+                "location": {
+                  "dimension": "minecraft:the_end"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:started_riding"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.instantfeedback.end.ride_happy_ghast.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:white_harness"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.instantfeedback.end.ride_happy_ghast.title"
+    }
+  },
+  "requirements": [
+    [
+      "ride_happy_ghast"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

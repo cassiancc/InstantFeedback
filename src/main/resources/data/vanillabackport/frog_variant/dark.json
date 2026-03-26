@@ -1,0 +1,15 @@
+{
+  "asset_id": "instantfeedback:entity/frog/dark_frog",
+  "spawn_conditions": [
+    {
+      "condition": {
+        "type": "minecraft:biome",
+        "biomes": [
+          "minecraft:dark_forest",
+          "minecraft:deep_dark"
+        ]
+      },
+      "priority": 1
+    }
+  ]
+}

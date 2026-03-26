@@ -1,7 +1,7 @@
 import org.jetbrains.changelog.Changelog
 
 plugins {
-	id 'fabric-loom' version '1.14-SNAPSHOT'
+	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id "me.modmuss50.mod-publish-plugin" version "1.1.0"
 	id 'org.jetbrains.changelog' version '2.+'
 }
@@ -14,6 +14,18 @@ base {
 }
 
 repositories {
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+	}
+	maven {
+		name = "Bawnorton"
+		url = "https://maven.bawnorton.com/"
+	}
+	maven {
+		name = "JitPack"
+		url = "https://jitpack.io"
+	}
 }
 
 loom {
@@ -29,7 +41,9 @@ loom {
 }
 
 fabricApi {
-	configureDataGeneration()
+	configureDataGeneration{
+		modId = "instantfeedback"
+	}
 }
 
 dependencies {
@@ -39,6 +53,17 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	modImplementation "maven.modrinth:vanillabackport:${vanillabackport_version}"
+	modImplementation "maven.modrinth:platform:${platform_version}"
+
+	implementation "io.github.llamalad7:mixinextras-fabric:0.4.1"
+	annotationProcessor "io.github.llamalad7:mixinextras-common:0.4.1"
+	include "io.github.llamalad7:mixinextras-fabric:0.4.1"
+
+	implementation "com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.1"
+	annotationProcessor "com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.1"
+	include "com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.1"
 }
 
 
@@ -79,7 +104,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 17
 }
 
 java {
@@ -88,8 +113,8 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {

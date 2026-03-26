@@ -2,17 +2,18 @@
 	"schemaVersion": 1,
 	"id": "instantfeedback",
 	"version": "${version}",
-	"name": "InstantFeedback",
-	"description": "Implements the most requested features from feedback.minecraft.net",
+	"name": "InstantFeedback for Vanilla Backport",
+	"description": "Implements the most requested features from feedback.minecraft.net. A backport of InstantFeedback to 1.20.1 made to work with Vanilla Backport.",
 	"authors": [
-		"Drex"
+		"Drex",
+		"Hallowed"
 	],
 	"license": "MIT",
 	"icon": "assets/instantfeedback/icon.png",
 	"contact": {
-		"homepage": "",
-		"issues": "https://github.com/DrexHD/InstantFeedback/issues",
-		"sources": "https://github.com/DrexHD/InstantFeedback/"
+		"homepage": "https://modrinth.com/project/instant-feedback-backport",
+		"issues": "https://github.com/CashMoney30/InstantFeedback/issues",
+		"sources": "https://github.com/CashMoney30/InstantFeedback/"
 	},
 	"environment": "*",
 	"entrypoints": {
@@ -20,7 +21,8 @@
 			"me.drex.instantfeedback.InstantFeedback"
 		],
 		"client": [
-			"me.drex.instantfeedback.InstantFeedbackClient"
+			"me.drex.instantfeedback.InstantFeedbackClient",
+			"me.drex.instantfeedback.InstantFeedbackEmissiveHandler"
 		],
 		"fabric-datagen": [
 			"me.drex.instantfeedback.datagen.InstantFeedbackDataGenerator"
@@ -35,15 +37,9 @@
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.16.5",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"custom": {
-		"modmenu": {
-			"links": {
-				"modmenu.discord": "https://discord.gg/QCRt5BYV32"
-			}
-		}
+		"fabricloader": ">=0.16.10",
+		"java": ">=17",
+		"fabric-api": "*",
+		"vanillabackport": "*"
 	}
 }

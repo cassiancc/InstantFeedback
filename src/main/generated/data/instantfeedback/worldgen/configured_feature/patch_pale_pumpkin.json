@@ -10,7 +10,10 @@
             "entries": [
               {
                 "data": {
-                  "Name": "instantfeedback:pale_pumpkin"
+                  "Name": "instantfeedback:pale_pumpkin",
+                  "Properties": {
+                    "facing": "north"
+                  }
                 },
                 "weight": 20
               },

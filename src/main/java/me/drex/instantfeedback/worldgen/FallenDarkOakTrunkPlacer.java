@@ -1,7 +1,7 @@
 package me.drex.instantfeedback.worldgen;
 
 import com.google.common.collect.Lists;
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.drex.instantfeedback.InstantFeedback;
 import net.minecraft.core.BlockPos;
@@ -15,12 +15,13 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.BiConsumer;
 
 public class FallenDarkOakTrunkPlacer extends TrunkPlacer {
-    public static final MapCodec<FallenDarkOakTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
+    public static final Codec<FallenDarkOakTrunkPlacer> CODEC = RecordCodecBuilder.create(
         instance -> trunkPlacerParts(instance).apply(instance, FallenDarkOakTrunkPlacer::new)
     );
     public FallenDarkOakTrunkPlacer(int baseHeight, int heightRandA, int heightRandB) {
@@ -28,11 +29,12 @@ public class FallenDarkOakTrunkPlacer extends TrunkPlacer {
     }
 
     @Override
-    protected TrunkPlacerType<?> type() {
+    protected @NotNull TrunkPlacerType<?> type() {
         return InstantFeedback.FALLEN_DARK_OAK_TRUNK_PLACER;
     }
 
     @Override
+    @NotNull
     public List<FoliagePlacer.FoliageAttachment> placeTrunk(
         LevelSimulatedReader levelSimulatedReader,
         BiConsumer<BlockPos, BlockState> biConsumer,
@@ -44,7 +46,7 @@ public class FallenDarkOakTrunkPlacer extends TrunkPlacer {
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
         Direction fallDirection = Direction.values()[randomSource.nextInt(4) + 2];
 
-        BlockPos below = origin.below();
+        //BlockPos below = origin.below();
 
 //        setDirtAt(levelSimulatedReader, biConsumer, randomSource, below, treeConfiguration);
 //        setDirtAt(levelSimulatedReader, biConsumer, randomSource, below.east(), treeConfiguration);
@@ -74,11 +76,17 @@ public class FallenDarkOakTrunkPlacer extends TrunkPlacer {
 
             int y = originY + dy;
             BlockPos pos = new BlockPos(x, y, z);
-            if (TreeFeature.isAirOrLeaves(levelSimulatedReader, transform(pos, fallDirection, origin))) {
-                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, transform(pos, fallDirection, origin), treeConfiguration);
-                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, transform(pos.east(), fallDirection, origin), treeConfiguration);
-                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, transform(pos.south(), fallDirection, origin), treeConfiguration);
-                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, transform(pos.east().south(), fallDirection, origin), treeConfiguration);
+
+            BlockPos p1 = transform(pos, fallDirection, origin);
+            BlockPos p2 = transform(pos.east(), fallDirection, origin);
+            BlockPos p3 = transform(pos.south(), fallDirection, origin);
+            BlockPos p4 = transform(pos.south().east(), fallDirection, origin);
+
+            if (TreeFeature.isAirOrLeaves(levelSimulatedReader, p1)) {
+                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, p1, treeConfiguration);
+                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, p2, treeConfiguration);
+                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, p3, treeConfiguration);
+                this.placeLog(levelSimulatedReader, transformedBiConsumer, randomSource, p4, treeConfiguration);
             }
         }
 

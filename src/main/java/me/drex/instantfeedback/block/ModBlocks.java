@@ -5,7 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
@@ -44,62 +44,75 @@ public class ModBlocks {
 
     public static final Block PALE_ROSE = register(
         "pale_rose",
-        properties -> new FlowerBlock(MobEffects.GLOWING, 5.0F, properties),
+        properties -> new FlowerBlock(MobEffects.GLOWING, 15, properties),
         BlockBehaviour.Properties.of()
             .mapColor(DyeColor.WHITE)
-            .noCollision()
+            .noCollission()
+            .noOcclusion()
             .instabreak()
             .sound(SoundType.GRASS)
             .offsetType(BlockBehaviour.OffsetType.XZ)
+            .lightLevel(state -> 3)
             .pushReaction(PushReaction.DESTROY));
 
-    public static final Block POTTED_PALE_ROSE = register("potted_pale_rose",
-        properties -> new FlowerPotBlock(PALE_ROSE, properties), Blocks.flowerPotProperties());
-
-    public static final Block POTTED_CACTUS_FLOWER = register("potted_cactus_flower",
-        properties -> new FlowerPotBlock(Blocks.CACTUS_FLOWER, properties), Blocks.flowerPotProperties());
-
-    public static final Block POTTED_ROSE_BUSH = register("potted_rose_bush",
-        properties -> new FlowerPotBlock(Blocks.ROSE_BUSH, properties), Blocks.flowerPotProperties());
-
-    public static final Block POTTED_PEONY = register("potted_peony",
-        properties -> new FlowerPotBlock(Blocks.PEONY, properties), Blocks.flowerPotProperties());
-
-    public static final Block POTTED_LILAC = register("potted_lilac",
-        properties -> new FlowerPotBlock(Blocks.LILAC, properties), Blocks.flowerPotProperties());
-
-    public static final Block POTTED_SUNFLOWER = register("potted_sunflower",
-        properties -> new FlowerPotBlock(Blocks.SUNFLOWER, properties), Blocks.flowerPotProperties());
-
-    public static final Block POTTED_PITCHER_PLANT = register("potted_pitcher_plant",
-        properties -> new FlowerPotBlock(Blocks.PITCHER_PLANT, properties), Blocks.flowerPotProperties());
-
     public static final Block PALE_BUSH = register(
-        "pale_bush",
-        DryVegetationBlock::new,
-        BlockBehaviour.Properties.of()
-            .mapColor(MapColor.TERRACOTTA_BROWN)
-            .replaceable()
-            .noCollision()
-            .instabreak()
-            .sound(SoundType.GRASS)
-            .ignitedByLava()
-            .pushReaction(PushReaction.DESTROY)
+            "pale_bush",
+            DryVegetationBlock::new,
+            BlockBehaviour.Properties.of()
+                .mapColor(MapColor.TERRACOTTA_BROWN)
+                .replaceable()
+                .noCollission()
+                .noOcclusion()
+                .instabreak()
+                .sound(SoundType.GRASS)
+                .offsetType(BlockBehaviour.OffsetType.XZ)
+                .ignitedByLava()
+                .pushReaction(PushReaction.DESTROY)
     );
 
     public static final Block TALL_PALE_BUSH = register(
-        "tall_pale_bush",
-        TallFlowerBlock::new,
-        BlockBehaviour.Properties.of()
-            .mapColor(MapColor.TERRACOTTA_BROWN)
-            .replaceable()
-            .noCollision()
-            .instabreak()
-            .sound(SoundType.GRASS)
-            .offsetType(BlockBehaviour.OffsetType.XZ)
-            .ignitedByLava()
-            .pushReaction(PushReaction.DESTROY)
+            "tall_pale_bush",
+            TallDryVegetationBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.TERRACOTTA_BROWN)
+                    .replaceable()
+                    .noCollission()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.GRASS)
+                    .offsetType(BlockBehaviour.OffsetType.XZ)
+                    .ignitedByLava()
+                    .pushReaction(PushReaction.DESTROY)
     );
+
+    public static final Block POTTED_PALE_ROSE = register("potted_pale_rose",
+        properties -> new FlowerPotBlock(PALE_ROSE, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().lightLevel(state -> 3).pushReaction(PushReaction.DESTROY));
+
+    public static final Block POTTED_PALE_BUSH = register("potted_pale_bush",
+            properties -> new FlowerPotBlock(PALE_BUSH, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)
+    );
+
+    public static final Block POTTED_TALL_PALE_BUSH = register("potted_tall_pale_bush",
+            properties -> new FlowerPotBlock(TALL_PALE_BUSH, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)
+    );
+
+    public static final Block POTTED_CACTUS_FLOWER = register("potted_cactus_flower",
+        properties -> new FlowerPotBlock(com.blackgear.vanillabackport.common.registries.ModBlocks.CACTUS_FLOWER.get(), properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+
+    public static final Block POTTED_ROSE_BUSH = register("potted_rose_bush",
+        properties -> new FlowerPotBlock(Blocks.ROSE_BUSH, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+
+    public static final Block POTTED_PEONY = register("potted_peony",
+        properties -> new FlowerPotBlock(Blocks.PEONY, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+
+    public static final Block POTTED_LILAC = register("potted_lilac",
+        properties -> new FlowerPotBlock(Blocks.LILAC, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+
+    public static final Block POTTED_SUNFLOWER = register("potted_sunflower",
+        properties -> new FlowerPotBlock(Blocks.SUNFLOWER, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+
+    public static final Block POTTED_PITCHER_PLANT = register("potted_pitcher_plant",
+        properties -> new FlowerPotBlock(Blocks.PITCHER_PLANT, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
 
     public static final Block CERULEAN_FROGLIGHT = register(
             "cerulean_froglight",
@@ -115,14 +128,14 @@ public class ModBlocks {
     }
 
     public static Block register(Block block, String path) {
-        Identifier id = Identifier.fromNamespaceAndPath(InstantFeedback.MOD_ID, path);
+        ResourceLocation id = new ResourceLocation(InstantFeedback.MOD_ID, path);
         BlockItem blockItem = new BlockItem(block, new Item.Properties());
         Registry.register(BuiltInRegistries.ITEM, id, blockItem);
         return Registry.register(BuiltInRegistries.BLOCK, id, block);
     }
 
     public static Block register(ResourceKey<Block> resourceKey, Function<BlockBehaviour.Properties, Block> function, BlockBehaviour.Properties properties) {
-        Block block = function.apply(properties.setId(resourceKey));
+        Block block = function.apply(properties);
         return Registry.register(BuiltInRegistries.BLOCK, resourceKey, block);
     }
 
@@ -131,7 +144,7 @@ public class ModBlocks {
     }
 
     private static ResourceKey<Block> blockId(String path) {
-        return ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(InstantFeedback.MOD_ID, path));
+        return ResourceKey.create(Registries.BLOCK, new ResourceLocation(InstantFeedback.MOD_ID, path));
     }
 
     private static Block register(String string, Function<BlockBehaviour.Properties, Block> function, BlockBehaviour.Properties properties) {

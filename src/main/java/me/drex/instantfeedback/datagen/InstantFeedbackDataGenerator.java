@@ -1,7 +1,5 @@
 package me.drex.instantfeedback.datagen;
 
-import me.drex.instantfeedback.entity.ModFrogVariants;
-import me.drex.instantfeedback.entity.ModPigVariants;
 import me.drex.instantfeedback.worldgen.ModVegetationFeatures;
 import me.drex.instantfeedback.worldgen.ModVegetationPlacements;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -14,7 +12,11 @@ public class InstantFeedbackDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
+
         pack.addProvider(ModRegistryProvider::new);
+
+        pack.addProvider((output, registries) -> new ModVariantProvider(output, registries));
+
         pack.addProvider(ModLootTableProvider::new);
         pack.addProvider(ModBlockTagProvider::new);
         pack.addProvider(ModItemTagProvider::new);
@@ -27,7 +29,7 @@ public class InstantFeedbackDataGenerator implements DataGeneratorEntrypoint {
         DataGeneratorEntrypoint.super.buildRegistry(registryBuilder);
         registryBuilder.add(Registries.CONFIGURED_FEATURE, ModVegetationFeatures::bootstrap);
         registryBuilder.add(Registries.PLACED_FEATURE, ModVegetationPlacements::bootstrap);
-        registryBuilder.add(Registries.FROG_VARIANT, ModFrogVariants::bootstrap);
-        registryBuilder.add(Registries.PIG_VARIANT, ModPigVariants::bootstrap);
+// Removed pig and frog stuff from here because it was freaking out VanillaBackport
+
     }
 }

@@ -1,129 +1,224 @@
 package me.drex.instantfeedback;
 
+import com.blackgear.vanillabackport.common.api.variant.VariantDataHolder;
+import com.blackgear.vanillabackport.common.api.variant.VariantUtils;
+import com.blackgear.vanillabackport.common.level.entities.animal.PigVariant;
+import com.blackgear.vanillabackport.common.level.items.VariantEggItem;
+import com.blackgear.vanillabackport.core.registries.ModBuiltinRegistries;
 import me.drex.instantfeedback.block.ModBlocks;
 import me.drex.instantfeedback.config.ConfigManager;
 import me.drex.instantfeedback.entity.ModFrogVariants;
+import me.drex.instantfeedback.entity.ModPigVariants;
 import me.drex.instantfeedback.item.ModCauldronInteraction;
 import me.drex.instantfeedback.item.ModItems;
+import me.drex.instantfeedback.mixin.vanilla_backport_fixes.VariantEggItemAccessor;
 import me.drex.instantfeedback.worldgen.FallenDarkOakTrunkPlacer;
 import me.drex.instantfeedback.worldgen.ModVegetationPlacements;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.minecraft.advancements.criterion.DamageSourcePredicate;
-import net.minecraft.advancements.criterion.DataComponentMatchers;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentExactPredicate;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.particles.ColorParticleOption;
-import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.*;
+import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.attribute.EnvironmentAttributes;
-import net.minecraft.world.attribute.modifier.FloatModifier;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.frog.FrogVariant;
-import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrownEgg;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.gameevent.GameEvent;
+import me.drex.instantfeedback.block.CarvedPalePumpkinBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class InstantFeedback implements ModInitializer {
 
     public static final String MOD_ID = "instantfeedback";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final SimpleParticleType CREAKING_EYES = FabricParticleTypes.simple();
-    public static final ParticleType<ColorParticleOption> TINTED_NEEDLES = FabricParticleTypes.complex(ColorParticleOption::codec, ColorParticleOption::streamCodec);
-    public static final TrunkPlacerType<FallenDarkOakTrunkPlacer> FALLEN_DARK_OAK_TRUNK_PLACER = Registry.register(BuiltInRegistries.TRUNK_PLACER_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "fallen_dark_oak_trunk_placer"), new TrunkPlacerType<>(FallenDarkOakTrunkPlacer.CODEC));
+    public static final ResourceKey<Registry<PigVariant>> PIG_VARIANT_REGISTRY =
+            ResourceKey.createRegistryKey(new ResourceLocation("minecraft", "pig_variant"));
 
+    public static final SimpleParticleType CREAKING_EYES = Registry.register(
+            BuiltInRegistries.PARTICLE_TYPE,
+            new ResourceLocation(MOD_ID, "creaking_eyes"),
+            FabricParticleTypes.simple()
+    );
+
+    public static final TrunkPlacerType<FallenDarkOakTrunkPlacer> FALLEN_DARK_OAK_TRUNK_PLACER =
+            Registry.register(BuiltInRegistries.TRUNK_PLACER_TYPE, new ResourceLocation(MOD_ID, "fallen_dark_oak_trunk_placer"), new TrunkPlacerType<>(FallenDarkOakTrunkPlacer.CODEC)
+    );
+
+
+    private void fixBackportEgg(String path) {
+        ResourceLocation id = new ResourceLocation("minecraft", path);
+        Item egg = BuiltInRegistries.ITEM.get(id);
+
+        if (egg instanceof VariantEggItem variantEgg) {
+
+            DispenserBlock.registerBehavior(egg, new AbstractProjectileDispenseBehavior() {
+                @Override
+                protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
+                    ThrownEgg thrownEgg = new ThrownEgg(level, pos.x(), pos.y(), pos.z());
+                    thrownEgg.setItem(stack);
+
+                    var variantKey = ((VariantEggItemAccessor) variantEgg).getVariant();
+
+                    VariantDataHolder.getHolder(thrownEgg).setVariantData(
+                            VariantUtils.getDefault(ModBuiltinRegistries.CHICKEN_VARIANTS, variantKey)
+                    );
+
+                    return thrownEgg;
+                }
+            });
+        } else {
+        }
+    }
 
     @Override
     public void onInitialize() {
         ConfigManager.load();
-        Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "creaking_eyes"), CREAKING_EYES);
-        Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "tinted_needles"), TINTED_NEEDLES);
+
+        LOGGER.info("Initializing Instant Feedback Variants: {}, {}",
+                ModPigVariants.MUDDY.location(),
+                ModFrogVariants.DARK.location()
+        );
+
         ModBlocks.initialize();
         ModItems.initialize();
+
+        DispenserBlock.registerBehavior(ModBlocks.CARVED_PALE_PUMPKIN, new OptionalDispenseItemBehavior() {
+            @Override
+            protected ItemStack execute(BlockSource source, ItemStack stack) {
+                Level level = source.getLevel();
+                BlockPos blockPos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+                CarvedPalePumpkinBlock carvedPalePumpkinBlock = (CarvedPalePumpkinBlock) ModBlocks.CARVED_PALE_PUMPKIN;
+
+                if (level.isEmptyBlock(blockPos) && carvedPalePumpkinBlock.canSpawnGolem(level, blockPos)) {
+                    if (!level.isClientSide) {
+                        level.setBlock(blockPos, carvedPalePumpkinBlock.defaultBlockState(), 3);
+                        level.gameEvent(null, GameEvent.BLOCK_PLACE, blockPos);
+                    }
+
+                    stack.shrink(1);
+                    this.setSuccess(true);
+                } else {
+                    this.setSuccess(ArmorItem.dispenseArmor(source, stack));
+                }
+
+                return stack;
+            }
+        });
+
+        ResourceKey<Biome> PALE_GARDEN = ResourceKey.create(Registries.BIOME, new ResourceLocation("minecraft", "pale_garden"));
+
         if (ConfigManager.config().theGardenAwakensRemoveMobSpawn) {
-            BiomeModifications.create(Identifier.fromNamespaceAndPath(MOD_ID, "pale_garden_remove_spawn"))
-                .add(ModificationPhase.REMOVALS, context -> context.getBiomeKey() == Biomes.PALE_GARDEN, context -> {
+            BiomeModifications.create(new ResourceLocation(MOD_ID, "pale_garden_remove_spawn"))
+                .add(ModificationPhase.REMOVALS, context -> context.getBiomeKey().equals(PALE_GARDEN), context -> {
                     context.getSpawnSettings().clearSpawns();
                 });
         }
         if (ConfigManager.config().theGardenAwakensWorldGen) {
-            BiomeModifications.create(Identifier.fromNamespaceAndPath(MOD_ID, "pale_garden_replace_vegetation"))
-                .add(ModificationPhase.REPLACEMENTS, context -> context.getBiomeKey() == Biomes.PALE_GARDEN, context -> {
-                    context.getGenerationSettings().removeFeature(VegetationPlacements.PALE_GARDEN_VEGETATION);
-                    context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModVegetationPlacements.PALE_GARDEN_VEGETATION);
-                });
+            BiomeModifications.create(new ResourceLocation(MOD_ID, "pale_garden_replace_vegetation"))
+                    .add(ModificationPhase.REPLACEMENTS, context -> context.getBiomeKey().equals(PALE_GARDEN), context -> {
+                        ResourceKey<net.minecraft.world.level.levelgen.placement.PlacedFeature> VANILLA_PALE_VEG =
+                                ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation("minecraft", "pale_garden_vegetation"));
+
+                        context.getGenerationSettings().removeFeature(VANILLA_PALE_VEG);
+                        context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModVegetationPlacements.PALE_GARDEN_VEGETATION);
+                    });
+
             BiomeModifications.addFeature(
-                context -> context.getBiomeKey() == Biomes.PALE_GARDEN,
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModVegetationPlacements.PATCH_PALE_PUMPKIN
+                    context -> context.getBiomeKey().equals(PALE_GARDEN),
+                    GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                    ModVegetationPlacements.PATCH_PALE_PUMPKIN
             );
+
+            ResourceKey<net.minecraft.world.level.levelgen.placement.PlacedFeature> LEAF_LITTER_KEY =
+                    ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation("minecraft", "leaf_litter"));
+
             BiomeModifications.addFeature(
-                context -> context.getBiomeKey() == Biomes.PALE_GARDEN,
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModVegetationPlacements.PILE_PALE_LEAVES
+                    context -> context.getBiomeKey().equals(PALE_GARDEN),
+                    GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                    LEAF_LITTER_KEY
+                    // ModVegetationPlacements.PILE_PALE_LEAVES
             );
+
             BiomeModifications.addFeature(
-                context -> context.getBiomeKey() == Biomes.PALE_GARDEN,
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModVegetationPlacements.PALE_VEGETATION
+                    context -> context.getBiomeKey().equals(PALE_GARDEN),
+                    GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                    ModVegetationPlacements.PALE_VEGETATION
             );
         }
 
-        if (ConfigManager.config().theGardenAwakensFog) {
-            BiomeModifications.create(Identifier.fromNamespaceAndPath(MOD_ID, "pale_garden_environment_fog"))
-                .add(ModificationPhase.ADDITIONS, context -> context.getBiomeKey() == Biomes.PALE_GARDEN, context -> {
-                    context.getAttributes().setModifier(EnvironmentAttributes.FOG_END_DISTANCE, FloatModifier.MULTIPLY, 1 / 16f);
-                });
-        }
-
-
-        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-            HolderGetter<EntityType<?>> entityTypes = registries.lookupOrThrow(Registries.ENTITY_TYPE);
-            HolderGetter<FrogVariant> frogVariants = registries.lookupOrThrow(Registries.FROG_VARIANT);
-            var magmaCube = EntityType.MAGMA_CUBE.getDefaultLootTable();
-            if (magmaCube.isPresent() && magmaCube.get() == key && source.isBuiltin()) {
-                tableBuilder.modifyPools(builder -> {
-                    builder.add(
-                        LootItem.lootTableItem(ModItems.CERULEAN_FROGLIGHT)
-                            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
-                            .when(DamageSourceCondition.hasDamageSource(
-                                DamageSourcePredicate.Builder.damageType()
-                                    .source(
-                                        EntityPredicate.Builder.entity()
-                                            .of(entityTypes, EntityType.FROG)
-                                            .components(
-                                                DataComponentMatchers.Builder.components()
-                                                    .exact(DataComponentExactPredicate.expect(DataComponents.FROG_VARIANT, frogVariants.getOrThrow(ModFrogVariants.DARK)))
-                                                    .build()
-                                            )
-                                    )
-                            ))
-                    );
-                });
-            }
-        });
+        ComposterBlock.COMPOSTABLES.put(ModItems.PALE_BUSH.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.TALL_PALE_BUSH.asItem(), 0.5F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.PALE_ROSE.asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.PALE_PUMPKIN.asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.CARVED_PALE_PUMPKIN.asItem(), 0.65F);
 
         ModCauldronInteraction.bootstrap();
+
+        fixBackportEgg("brown_egg");
+        fixBackportEgg("blue_egg");
+    }
+
+    public class PaleBonemealGrowth {
+        public static void grow(ServerLevel level, BlockPos pos, RandomSource random) {
+            level.getBiome(pos).unwrapKey().ifPresent(key -> {
+                if (key.location().getPath().contains("pale_garden")) {
+
+                    for (int i = 0; i < 10; ++i) {
+                        BlockPos targetPos = pos.offset(random.nextInt(5) - 2, 1, random.nextInt(5) - 2);
+
+                        if (level.getBlockState(targetPos).isAir() &&
+                                level.getBlockState(targetPos.below()).is(Blocks.GRASS_BLOCK)) {
+
+                            double chance = random.nextDouble();
+
+                            // Carved Pale Pumpkin 0.5% chance
+                            if (chance < 0.005) {
+                                BlockState carved = ModBlocks.CARVED_PALE_PUMPKIN.defaultBlockState();
+                                Direction randomFacing = Direction.Plane.HORIZONTAL.getRandomDirection(random);
+                                level.setBlock(targetPos, carved.setValue(BlockStateProperties.HORIZONTAL_FACING, randomFacing), 3);
+                            }
+                            // Pale Pumpkin 1% chance
+                            else if (chance < 0.015) {
+                                level.setBlock(targetPos, ModBlocks.PALE_PUMPKIN.defaultBlockState(), 3);
+                            }
+                            // Pale Bush 20% chance
+                            else if (chance < 0.215) {
+                                level.setBlock(targetPos, ModBlocks.PALE_BUSH.defaultBlockState(), 3);
+                            }
+                            // Pale Rose 20% chance
+                            else if (chance < 0.415) {
+                                level.setBlock(targetPos, ModBlocks.PALE_ROSE.defaultBlockState(), 3);
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     public static String id(String path) {
-        return Identifier.fromNamespaceAndPath(MOD_ID, path).toString();
+        return new ResourceLocation(MOD_ID, path).toString();
     }
 }

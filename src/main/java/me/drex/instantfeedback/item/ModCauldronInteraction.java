@@ -3,6 +3,7 @@ package me.drex.instantfeedback.item;
 import me.drex.instantfeedback.config.ConfigManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -16,18 +17,27 @@ import java.util.Map;
 
 public class ModCauldronInteraction {
     public static void bootstrap() {
-        Map<Item, CauldronInteraction> map = CauldronInteraction.WATER.map();
+        Map<Item, CauldronInteraction> map = CauldronInteraction.WATER;
         if (ConfigManager.config().chaseTheSkiesUndyeBundles) {
-            for (BundleItem bundleItem : BundleItem.getAllBundleItemColors()) {
+            /* for (BundleItem bundleItem : BundleItem.getAllBundleItemColors()) {
                 if (bundleItem.equals(Items.BUNDLE)) continue;
                 map.put(bundleItem, ModCauldronInteraction::bundleInteraction);
+             */
+            for (Item item : BuiltInRegistries.ITEM) {
+                if (item instanceof BundleItem && item != Items.BUNDLE) {
+                    map.put(item, (state, level, pos, player, hand, stack) -> bundleInteraction(state, level, pos, player, hand, stack));
+                }
             }
         }
     }
 
     private static InteractionResult bundleInteraction(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, ItemStack itemStack) {
         if (!level.isClientSide()) {
-            ItemStack cleanedBundle = itemStack.transmuteCopy(Items.BUNDLE, 1);
+            ItemStack cleanedBundle = new ItemStack(Items.BUNDLE, 1);
+            net.minecraft.nbt.CompoundTag tag = itemStack.getTag();
+            if (tag != null) {
+                cleanedBundle.setTag(tag.copy());
+            }
             player.setItemInHand(interactionHand, ItemUtils.createFilledResult(itemStack, player, cleanedBundle, false));
             player.awardStat(Stats.CLEAN_SHULKER_BOX);
             LayeredCauldronBlock.lowerFillLevel(blockState, level, blockPos);

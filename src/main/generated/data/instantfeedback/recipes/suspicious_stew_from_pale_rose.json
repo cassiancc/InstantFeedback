@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "group": "suspicious_stew",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "instantfeedback:pale_rose"
+    }
+  ],
+  "result": {
+    "item": "minecraft:suspicious_stew",
+    "count": 1
+  }
+}

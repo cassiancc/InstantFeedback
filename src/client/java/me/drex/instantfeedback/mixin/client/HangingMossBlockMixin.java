@@ -5,39 +5,68 @@ import me.drex.instantfeedback.config.ConfigManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.HangingMossBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.world.level.block.state.properties.Property;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(HangingMossBlock.class)
+import java.util.Map;
+
+import static com.blackgear.vanillabackport.common.registries.ModBiomes.PALE_GARDEN;
+
+@Pseudo
+@Mixin(targets = "com.blackgear.vanillabackport.common.level.blocks.HangingMossBlock", remap = false)
 public abstract class HangingMossBlockMixin {
 
-    @Shadow
-    @Final
-    public static BooleanProperty TIP;
-
     @Inject(
-        method = "animateTick",
-        at = @At("HEAD")
+            method = "animateTick",
+            at = @At("HEAD"),
+            remap = false
     )
     public void addParticle(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
-        if (ConfigManager.config().theGardenAwakensAmbientParticles && randomSource.nextInt(100) == 0 && level.isDarkOutside()) {
-            if (blockState.getValue(TIP)) {
-                level.addParticle(
-                    InstantFeedback.CREAKING_EYES,
-                    blockPos.getX() + .5, blockPos.getY() - .5, blockPos.getZ() + .5,
-                    0.0,
-                    0.0,
-                    0.0
-                );
+
+        if (!level.getBiome(blockPos).is(PALE_GARDEN)) return;
+
+        double maxHorizontalDistSq = 49.0;
+
+        for (net.minecraft.world.entity.player.Player player : level.players()) {
+            double dx = (blockPos.getX() + 0.5) - player.getX();
+            double dz = (blockPos.getZ() + 0.5) - player.getZ();
+            double dy = (blockPos.getY() + 0.5) - player.getY();
+
+            if ((dx * dx + dz * dz) <= maxHorizontalDistSq && Math.abs(dy) < 15.0) {
+                return;
+            }
+        }
+
+        long time = level.getDayTime() % 24000;
+        boolean isNight = time >= 13000 && time <= 23000;
+
+        int blockLight = level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, blockPos);
+
+        if (ConfigManager.config().theGardenAwakensAmbientParticles && isNight && blockLight < 4 && randomSource.nextInt(400) == 0) {
+
+            for (Map.Entry<Property<?>, Comparable<?>> entry : blockState.getValues().entrySet()) {
+                Property<?> property = entry.getKey();
+
+                if (property.getName().equals("tip")) {
+                    if (entry.getValue().toString().equalsIgnoreCase("true")) {
+                        level.addParticle(
+                                InstantFeedback.CREAKING_EYES,
+                                blockPos.getX() + 0.5,
+                                blockPos.getY() + 0.5,
+                                blockPos.getZ() + 0.5,
+                                0.0,
+                                0.0,
+                                0.0
+                        );
+                    }
+                    break;
+                }
             }
         }
     }
-
 }

@@ -6,6 +6,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [3.1.0+1.20.1-VanillaBackport] - 2026-03-25
+- This is a backport of InstantFeedback version 3.1.0+1.21.11 to Minecraft 1.20.1
+- Dependencies:
+  - Vanilla Backport 1.20.1 1.1.5.4
+  - Platform 1.20.1 1.2.11.5
+#### Added
+- Added Potted Pale Bush
+- Added Potted Tall Pale Bush
+
+#### Changed
+- Changed Pale Garden ambient particles
+  - They now spawn much more rarely
+  - They have a fade-out
+  - They disappear if a player is too close or if the light level is too high
+- Retextured the Pale Pumpkin and Carved Pale Pumpkin
+  - Emissive textures use Vanilla Backport's emissive rendering system
+- Adjusted Pale Garden fog for 1.20.1 compatibility
+- Adjusted fallen pale oak generation chance as they were too common
+- Pale Bushes and Tall Pale Bushes now have an XZ offset
+- Pale Bushes, Tall Pale Bushes, Pale Roses, Pale Pumpkins, and Carved Pale Pumpkins can be composted
+- Pale Roses and Potted Pale Roses now emit a light level of 3
+- Pale Roses can be crafted into White Dye
+- Suspicious stew made from the Pale Rose has had its effect duration changed to 15 seconds
+- When bone mealed by a player or dispenser, grass blocks in the Pale Garden now have a chance to grow the following in addition to grass and eyeblossoms:
+  - Pale Bush -- 20% chance
+  - Pale Rose -- 20% chance
+  - Pale Pumpkin -- 1% chance
+  - Carved Pale Pumpkin -- 0.5% chance
+- Pale Bushes can now be bone mealed into Tall Pale Bushes
+- Pale Bushes and Tall Pale Bushes can now only be picked up with shears or a tool enchanted with Silk Touch
+- Replaced Pale Garden Leaf Piles with leaf litter
+- Pale Carved Pumpkins can now be dispensed to build Snow Golems
+- Snow Golems wearing a Pale Carved Pumpkin will throw flaming snowballs
+  - Flaming snowballs deal 1 tick of fire damage to the entity they hit
+- Pale Carved Pumpkins can be sheared off of Snow Golems
+  - Once the pumpkin is sheared off, the Snow Golem loses its ability to throw flaming snowballs
+- Changed the blocks that Pale Bushes and Tall Pale Bushes can be placed on
+- Creaking damage buff has been scaled based on game difficulty:
+  - Easy -- 5hp
+  - Normal -- 10hp
+  - Hard -- 20hp
+- Dark Frogs can now also be spawned in the Deep Dark
+- Reordered creative inventory to be able to anchor Instant Feedback items to vanilla items
+
+#### Fixed
+- Fixed music continuing to play in the Pale Garden (VanillaBackport bug)
+- Fixed egg variants not being thrown from dispensers (VanillaBackport bug)
+- Reordered worldgen steps to prevent inappropriate replacement of logs by vegetation
+
+#### Removed
+- Removed falling spruce needles, as VanillaBackport adds their own identical spruce needles
+
 ## [3.1.0] - 2026-01-12
 ### Added
 - Config to toggle specific features

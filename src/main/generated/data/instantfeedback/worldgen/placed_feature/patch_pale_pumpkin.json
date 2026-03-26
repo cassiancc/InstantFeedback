@@ -13,6 +13,19 @@
       "heightmap": "MOTION_BLOCKING"
     },
     {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:not",
+        "predicate": {
+          "type": "minecraft:matching_blocks",
+          "blocks": [
+            "minecraft:pale_oak_log",
+            "vanillabackport:pale_oak_log"
+          ]
+        }
+      }
+    },
+    {
       "type": "minecraft:biome"
     }
   ]

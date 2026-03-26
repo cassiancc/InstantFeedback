@@ -1,51 +1,61 @@
 package me.drex.instantfeedback.datagen;
 
-import me.drex.instantfeedback.InstantFeedback;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.advancements.criterion.ItemPredicate;
-import net.minecraft.advancements.criterion.LocationPredicate;
-import net.minecraft.advancements.criterion.PlayerInteractTrigger;
-import net.minecraft.core.HolderGetter;
+import net.minecraft.advancements.FrameType;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Items;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import com.blackgear.vanillabackport.common.registries.ModEntities;
+import com.blackgear.vanillabackport.common.registries.ModItems;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class ModAdvancementProvider extends FabricAdvancementProvider {
+    private final CompletableFuture<HolderLookup.Provider> registryLookupFuture;
+
     protected ModAdvancementProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(output, registryLookup);
+        super(output);
+        this.registryLookupFuture = registryLookup;
     }
 
     @Override
-    public void generateAdvancement(HolderLookup.Provider registryLookup, Consumer<AdvancementHolder> consumer) {
-        HolderGetter<EntityType<?>> entityGetter = registryLookup.lookupOrThrow(Registries.ENTITY_TYPE);
+    public void generateAdvancement(Consumer<Advancement> consumer) {
+        Advancement vanillaParent = Advancement.Builder.advancement()
+                .build(new ResourceLocation("minecraft", "end/kill_dragon"));
 
-        //noinspection removal
         Advancement.Builder.advancement()
-            .parent(Identifier.withDefaultNamespace("end/kill_dragon"))
-            .display(Items.WHITE_HARNESS, Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.title"), Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.description"), null, AdvancementType.CHALLENGE, true, true, false)
-            .addCriterion(
-                "ride_happy_ghast",
-                PlayerInteractTrigger.TriggerInstance.itemUsedOnEntity(
-                    ItemPredicate.Builder.item(), Optional.of(EntityPredicate.wrap(
-                        EntityPredicate.Builder.entity().of(entityGetter, EntityType.HAPPY_GHAST)
-                            .located(LocationPredicate.Builder.inDimension(Level.END))
-                    ))
+                .parent(vanillaParent)
+                .display(
+                        ModItems.WHITE_HARNESS.get(),
+                        Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.title"),
+                        Component.translatable("advancement.instantfeedback.end.ride_happy_ghast.description"),
+                        null,
+                        FrameType.CHALLENGE,
+                        true,
+                        true,
+                        false
                 )
-            )
-            .save(consumer, InstantFeedback.id("end/ride_happy_ghast"));
-
-    }
+                .addCriterion("ride_happy_ghast",
+                        new StartRidingTrigger.TriggerInstance(
+                                EntityPredicate.wrap(
+                                        EntityPredicate.Builder.entity()
+                                                .vehicle(EntityPredicate.Builder.entity()
+                                                        .of(ModEntities.HAPPY_GHAST.get())
+                                                        .located(LocationPredicate.Builder.location()
+                                                                .setDimension(Level.END)
+                                                                .build())
+                                                        .build())
+                                                .build()
+                                )
+                        )
+                )
+                .requirements(RequirementsStrategy.AND)
+                .save(consumer, "instantfeedback:end/ride_happy_ghast");
+    } // This is stupid
 }

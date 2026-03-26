@@ -12,7 +12,7 @@
         "feature": "minecraft:pale_oak_checked"
       },
       {
-        "chance": 0.8,
+        "chance": 0.2,
         "feature": "instantfeedback:fallen_pale_oak_creaking"
       }
     ]

@@ -1,0 +1,73 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:any_of",
+          "terms": [
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "items": [
+                  "minecraft:shears"
+                ]
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "instantfeedback:tall_pale_bush",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "instantfeedback:tall_pale_bush",
+                  "properties": {
+                    "half": "lower"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "instantfeedback:tall_pale_bush",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "instantfeedback:tall_pale_bush",
+                  "properties": {
+                    "half": "upper"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

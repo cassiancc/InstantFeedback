@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "instantfeedback:block/carved_pale_pumpkin"
+    "model": "instantfeedback:item/carved_pale_pumpkin"
   }
 }

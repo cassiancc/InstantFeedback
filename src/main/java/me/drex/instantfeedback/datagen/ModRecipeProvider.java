@@ -3,50 +3,43 @@ package me.drex.instantfeedback.datagen;
 import me.drex.instantfeedback.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.SuspiciousEffectHolder;
+import net.minecraft.core.HolderLookup;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
     public ModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+        super(output);
     }
 
     @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
-        return new RecipeProvider(registryLookup, exporter) {
-            @Override
-            public void buildRecipes() {
-                SuspiciousEffectHolder suspiciousEffectHolder = SuspiciousEffectHolder.tryGet(ModBlocks.PALE_ROSE);
-                assert suspiciousEffectHolder != null;
-                suspiciousStew(ModBlocks.PALE_ROSE, suspiciousEffectHolder);
-            }
+    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
+        suspiciousStew(exporter, ModBlocks.PALE_ROSE);
+        oneToOneDye(exporter, ModBlocks.PALE_ROSE, Items.WHITE_DYE);
+    }
 
-            public void suspiciousStew(ItemLike item, SuspiciousEffectHolder suspiciousEffectHolder) {
-                ItemStack itemStack = new ItemStack(
-                    Items.SUSPICIOUS_STEW.builtInRegistryHolder(),
-                    1,
-                    DataComponentPatch.builder().set(DataComponents.SUSPICIOUS_STEW_EFFECTS, suspiciousEffectHolder.getSuspiciousEffects()).build()
-                );
-                this.shapeless(RecipeCategory.FOOD, itemStack)
-                    .requires(Items.BOWL)
-                    .requires(Items.BROWN_MUSHROOM)
-                    .requires(Items.RED_MUSHROOM)
-                    .requires(item)
-                    .group("suspicious_stew")
-                    .unlockedBy(getHasName(item), this.has(item))
-                    .save(this.output, getItemName(itemStack.getItem()) + "_from_" + getItemName(item));
-            }
-        };
+    public void suspiciousStew(Consumer<FinishedRecipe> exporter, ItemLike flower) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, Items.SUSPICIOUS_STEW)
+                .requires(Items.BOWL)
+                .requires(Items.BROWN_MUSHROOM)
+                .requires(Items.RED_MUSHROOM)
+                .requires(flower)
+                .group("suspicious_stew")
+                .unlockedBy(getHasName(flower), has(flower))
+                .save(exporter, getItemName(Items.SUSPICIOUS_STEW) + "_from_" + getItemName(flower));
+    }
+    public void oneToOneDye(Consumer<FinishedRecipe> exporter, ItemLike flower, ItemLike dye) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, dye)
+                .requires(flower)
+                .group("dye")
+                .unlockedBy(getHasName(flower), has(flower))
+                .save(exporter, getItemName(dye) + "_from_" + getItemName(flower));
     }
 
     @Override
