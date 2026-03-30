@@ -14,29 +14,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(targets = "com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast$GhastMoveControl")
 public abstract class GhastMoveControlMixin {
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast ghast;
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract boolean canReach(Vec3 vec3);
 
-    @Shadow(remap = false)
+    @Shadow
     private int floatDuration;
 
     @Unique
     private int instantfeedback$callerTicks = -1;
 
     @Inject(
-        method = "tick",
-        at = @At(
-            value = "FIELD",
-            target = "Lcom/blackgear/vanillabackport/common/level/entities/happyghast/HappyGhast$GhastMoveControl;floatDuration:I",
-            ordinal = 0,
-            opcode = Opcodes.GETFIELD
-        ),
-           cancellable = true,
-           remap = false
+            method = "Lcom/blackgear/vanillabackport/common/level/entities/happyghast/HappyGhast$GhastMoveControl;tick()V",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lcom/blackgear/vanillabackport/common/level/entities/happyghast/HappyGhast$GhastMoveControl;floatDuration:I",
+                    ordinal = 0,
+                    opcode = Opcodes.GETFIELD
+            ),
+            require = 0,
+            cancellable = true
     )
     public void moveToCaller(CallbackInfo ci) {
         if ((Object)this.ghast instanceof IHappyGhast happyGhast) {

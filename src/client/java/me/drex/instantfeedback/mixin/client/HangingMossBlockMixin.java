@@ -1,5 +1,6 @@
 package me.drex.instantfeedback.mixin.client;
 
+import com.blackgear.vanillabackport.common.level.blocks.HangingMossBlock;
 import me.drex.instantfeedback.InstantFeedback;
 import me.drex.instantfeedback.config.ConfigManager;
 import net.minecraft.core.BlockPos;
@@ -8,7 +9,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,14 +17,13 @@ import java.util.Map;
 
 import static com.blackgear.vanillabackport.common.registries.ModBiomes.PALE_GARDEN;
 
-@Pseudo
-@Mixin(targets = "com.blackgear.vanillabackport.common.level.blocks.HangingMossBlock", remap = false)
+@Mixin(value = HangingMossBlock.class)
 public abstract class HangingMossBlockMixin {
 
     @Inject(
-            method = "animateTick",
+            method = "animateTick(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V",
             at = @At("HEAD"),
-            remap = false
+            require = 0
     )
     public void addParticle(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
 

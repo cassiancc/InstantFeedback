@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = MusicFadeManager.class, remap = false)
+@Mixin(value = MusicFadeManager.class)
 public abstract class FixVanillaBackportMusicFade {
 
     @Shadow @Final private MusicManager manager;
