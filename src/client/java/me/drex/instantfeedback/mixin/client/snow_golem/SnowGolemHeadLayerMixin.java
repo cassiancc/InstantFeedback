@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.drex.instantfeedback.block.ModBlocks;
-import me.drex.instantfeedback.duck.ISnowGolemRenderState;
+import me.drex.instantfeedback.duck.ISnowGolem;
 import net.minecraft.client.renderer.entity.layers.SnowGolemHeadLayer;
 import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +22,7 @@ public abstract class SnowGolemHeadLayerMixin {
         )
     )
     public boolean instantfeedback$orPalePumpking(SnowGolem instance, Operation<Boolean> original) {
-        return original.call(instance) || ((ISnowGolemRenderState) instance).instantfeedback$hasPalePumpkin();
+        return original.call(instance) || ((ISnowGolem) instance).instantfeedback$hasPalePumpkin();
     }
 
     @WrapOperation(
@@ -33,7 +33,7 @@ public abstract class SnowGolemHeadLayerMixin {
         )
     )
     private Block instantfeedback$renderPalePumpkin(Operation<Block> original, @Local(argsOnly = true) SnowGolem snowGolemRenderState) {
-        if (((ISnowGolemRenderState) snowGolemRenderState).instantfeedback$hasPalePumpkin()) {
+        if (((ISnowGolem) snowGolemRenderState).instantfeedback$hasPalePumpkin()) {
             return ModBlocks.CARVED_PALE_PUMPKIN;
         }
         return original.call();

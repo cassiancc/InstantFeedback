@@ -19,7 +19,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
 public class ModPigVariants {
-    public static final ResourceKey<PigVariant> MUDDY = ResourceKey.create(ModRegistries.PIG_VARIANT_KEY, InstantFeedback.id("muddy"));
+    public static final ResourceKey<PigVariant> MUDDY = ResourceKey.create(ModRegistries.PIG_VARIANT.key(), InstantFeedback.id("muddy"));
 
     public static void bootstrap(RegistryAccess access) {
         register(access, "muddy", PigVariant.ModelType.NORMAL, "muddy_pig", ConventionalBiomeTags.IS_SWAMP);

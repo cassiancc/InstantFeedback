@@ -1,7 +1,7 @@
 import org.jetbrains.changelog.Changelog
 
 plugins {
-	id 'fabric-loom' version '1.13-SNAPSHOT'
+	id 'fabric-loom' version '1.16-SNAPSHOT'
 	id "me.modmuss50.mod-publish-plugin" version "1.1.0"
 	id 'org.jetbrains.changelog' version '2.+'
 }
@@ -66,6 +66,8 @@ dependencies {
 	modImplementation "maven.modrinth:vanillabackport:${vanillabackport_version}"
 	modImplementation "maven.modrinth:platform:${platform_version}"
 	implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.7-beta.1"))
+	modImplementation "maven.modrinth:continuity:${continuity_version}"
+
 }
 
 
