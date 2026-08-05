@@ -35,7 +35,7 @@ Feedback: [Let's talk about the Pale Garden!](https://feedback.minecraft.net/hc/
 
 ## Creaking
 - Increased movement speed +50%
-- Increased attack damage from 2 to 10
+- Increased attack damage (scaled based on game difficulty) Easy: 6, Normal: 10, Hard: 20
 - ~~Close their eyes when you look at them~~ (removed in 24w44a, because mojang implemented their own eye logic)
 
 ![creaking starring at you](https://cdn.modrinth.com/data/cached_images/2de83ffab8952ca902537c4d2b1239f4f10b56e4.png)

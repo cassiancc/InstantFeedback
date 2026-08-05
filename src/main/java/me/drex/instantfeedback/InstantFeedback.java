@@ -1,17 +1,12 @@
 package me.drex.instantfeedback;
 
-import com.blackgear.vanillabackport.common.api.variant.VariantDataHolder;
-import com.blackgear.vanillabackport.common.api.variant.VariantUtils;
 import com.blackgear.vanillabackport.common.level.entities.animal.PigVariant;
-import com.blackgear.vanillabackport.common.level.items.VariantEggItem;
-import com.blackgear.vanillabackport.core.registries.ModBuiltinRegistries;
 import me.drex.instantfeedback.block.ModBlocks;
 import me.drex.instantfeedback.config.ConfigManager;
 import me.drex.instantfeedback.entity.ModFrogVariants;
 import me.drex.instantfeedback.entity.ModPigVariants;
 import me.drex.instantfeedback.item.ModCauldronInteraction;
 import me.drex.instantfeedback.item.ModItems;
-import me.drex.instantfeedback.mixin.vanilla_backport_fixes.VariantEggItemAccessor;
 import me.drex.instantfeedback.worldgen.FallenDarkOakTrunkPlacer;
 import me.drex.instantfeedback.worldgen.ModVegetationPlacements;
 import net.fabricmc.api.ModInitializer;
@@ -19,7 +14,6 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.*;
-import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -27,9 +21,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ThrownEgg;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -65,32 +56,6 @@ public class InstantFeedback implements ModInitializer {
     public static final TrunkPlacerType<FallenDarkOakTrunkPlacer> FALLEN_DARK_OAK_TRUNK_PLACER =
             Registry.register(BuiltInRegistries.TRUNK_PLACER_TYPE, new ResourceLocation(MOD_ID, "fallen_dark_oak_trunk_placer"), new TrunkPlacerType<>(FallenDarkOakTrunkPlacer.CODEC)
     );
-
-
-    private void fixBackportEgg(String path) {
-        ResourceLocation id = new ResourceLocation("minecraft", path);
-        Item egg = BuiltInRegistries.ITEM.get(id);
-
-        if (egg instanceof VariantEggItem variantEgg) {
-
-            DispenserBlock.registerBehavior(egg, new AbstractProjectileDispenseBehavior() {
-                @Override
-                protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
-                    ThrownEgg thrownEgg = new ThrownEgg(level, pos.x(), pos.y(), pos.z());
-                    thrownEgg.setItem(stack);
-
-                    var variantKey = ((VariantEggItemAccessor) variantEgg).getVariant();
-
-                    VariantDataHolder.getHolder(thrownEgg).setVariantData(
-                            VariantUtils.getDefault(ModBuiltinRegistries.CHICKEN_VARIANTS, variantKey)
-                    );
-
-                    return thrownEgg;
-                }
-            });
-        } else {
-        }
-    }
 
     @Override
     public void onInitialize() {
@@ -175,9 +140,6 @@ public class InstantFeedback implements ModInitializer {
         ComposterBlock.COMPOSTABLES.put(ModItems.CARVED_PALE_PUMPKIN.asItem(), 0.65F);
 
         ModCauldronInteraction.bootstrap();
-
-        fixBackportEgg("brown_egg");
-        fixBackportEgg("blue_egg");
     }
 
     public class PaleBonemealGrowth {

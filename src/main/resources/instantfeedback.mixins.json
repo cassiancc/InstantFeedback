@@ -11,8 +11,7 @@
     "snow_golem.SnowGolemMixin",
     "snow_golem.SnowballMixin",
     "PaleGardenBonemealMixin",
-    "ItemEntityMixin",
-    "vanilla_backport_fixes.VariantEggItemAccessor"
+    "ItemEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -6,7 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.1.1+1.20.1-VanillaBackport] - 2026-03-30
+### [3.1.2+1.20.1-VanillaBackport] - 2026-08-04
+#### Changed
+- Required Vanilla Backport version is now 1.1.6.2 or later
+- Fixed crash with new versions of Vanilla Backport
+- Removed egg variant fix as Vanilla Backport has resolved this issue in 1.1.6.2+
+
+### [3.1.1+1.20.1-VanillaBackport] - 2026-03-30
 #### Changed
 - Critical fix: Resolved Mixin mapping errors that were causing a crash on startup
 

@@ -10,14 +10,15 @@ public abstract class CreakingMixin {
 
     @ModifyConstant(
             method = "createAttributes",
-            constant = @Constant(doubleValue = 0.4)
+            constant = @Constant(doubleValue = 0.4),
+            require = 0
     )
     private static double increaseMovementSpeed(double original) {
         return ConfigManager.config().theGardenAwakensBuffCreaking ? 0.45 : original;
     }
 
     @Inject(
-            method = "Lcom/blackgear/vanillabackport/common/level/entities/creaking/Creaking;doHurtTarget(Lnet/minecraft/world/entity/Entity;)Z",
+            method = "doHurtTarget",
             at = @At("HEAD")
     )
     private void instantfeedback$applyDifficultyDamage(net.minecraft.world.entity.Entity target, org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<Boolean> cir) {

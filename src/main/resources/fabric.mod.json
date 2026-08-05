@@ -40,6 +40,6 @@
 		"fabricloader": ">=0.16.10",
 		"java": ">=17",
 		"fabric-api": "*",
-		"vanillabackport": "*"
+		"vanillabackport": ">=1.1.6.2"
 	}
 }
