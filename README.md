@@ -1,5 +1,27 @@
 A fabric mod implementing features requested on minecraft feedback pages!
 
+# Chaos Cubed
+
+Feedback: [Chaos Cubed](https://feedback.minecraft.net/hc/en-us/community/topics/44479219790861-Chaos-Cubed)
+
+- Added lava geysers
+- Added gunpowder recipe
+- ~~Sniffers can now dig out golden dandelions~~
+- ~~Golden dandelion now emit golden particles~~
+- ~~Baby mobs now follow players holding golden dandelion when their age is not locked~~
+- (Waiting for VanillaBackport to add Tiny Takeover content)
+
+![chaos cubed showcase](https://cdn.modrinth.com/data/pcDsJNzK/images/ee682df53ff06a0c06884f45ba75abdcd5da8cda.png)
+
+
+# Tiny Takeover
+
+Feedback: [Tiny Takeover](https://feedback.minecraft.net/hc/en-us/community/topics/42999231628301-Tiny-Takeover)
+
+- Right-click a clock to save the time and put it into an item frame to get a redstone signal every day at that time
+
+![tiny takeover showcase](https://cdn.modrinth.com/data/pcDsJNzK/images/3e41660455d967e57de45c9f64874d6bee338db2.png)
+
 # Chase the Skies
 
 Feedback: [Chase the Skies](https://feedback.minecraft.net/hc/en-us/community/topics/35301401438605-Chase-the-Skies)

@@ -1,6 +1,8 @@
 package me.drex.instantfeedback.block;
 
+import com.google.common.collect.ImmutableSet;
 import me.drex.instantfeedback.InstantFeedback;
+import me.drex.instantfeedback.mixin.sulfur_fire.BlockEntityTypeAccessor;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -19,6 +22,38 @@ import net.minecraft.world.level.material.PushReaction;
 import java.util.function.Function;
 
 public class ModBlocks {
+
+    public static final Block SULFUR_TORCH = register(
+            "sulfur_torch",
+            properties -> new TorchBlock(properties, InstantFeedback.SULFUR_FLAME),
+            BlockBehaviour.Properties.copy(Blocks.SOUL_TORCH)
+    );
+
+    public static final Block SULFUR_WALL_TORCH = register(
+            "sulfur_wall_torch",
+            properties -> new WallTorchBlock(properties, InstantFeedback.SULFUR_FLAME),
+            BlockBehaviour.Properties.copy(Blocks.SOUL_WALL_TORCH)
+                    .dropsLike(SULFUR_TORCH)
+    );
+
+    public static final Block SULFUR_LANTERN = register(
+            "sulfur_lantern",
+            LanternBlock::new,
+            BlockBehaviour.Properties.copy(Blocks.SOUL_LANTERN)
+    );
+
+    public static final Block SULFUR_CAMPFIRE = register(
+            "sulfur_campfire",
+            properties -> new CampfireBlock(false, 2, properties),
+            BlockBehaviour.Properties.copy(Blocks.SOUL_CAMPFIRE)
+    );
+
+    public static final Block SULFUR_FIRE = register(
+        "sulfur_fire",
+        SulfurFireBlock::new,
+        BlockBehaviour.Properties.copy(Blocks.SOUL_FIRE)
+                .mapColor(MapColor.COLOR_MAGENTA)
+    );
 
     public static final Block PALE_PUMPKIN = register(
         "pale_pumpkin",
@@ -125,6 +160,14 @@ public class ModBlocks {
     );
 
     public static void initialize() {
+        BlockEntityTypeAccessor accessor = (BlockEntityTypeAccessor) BlockEntityType.CAMPFIRE;
+
+        accessor.setValidBlocks(
+                ImmutableSet.<Block>builder()
+                        .addAll(accessor.getValidBlocks())
+                        .add(SULFUR_CAMPFIRE)
+                        .build()
+        );
     }
 
     public static Block register(Block block, String path) {

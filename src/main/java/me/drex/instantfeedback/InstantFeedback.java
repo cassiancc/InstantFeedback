@@ -52,6 +52,11 @@ public class InstantFeedback implements ModInitializer {
             new ResourceLocation(MOD_ID, "creaking_eyes"),
             FabricParticleTypes.simple()
     );
+    public static final SimpleParticleType SULFUR_FLAME = Registry.register(
+            BuiltInRegistries.PARTICLE_TYPE,
+            new ResourceLocation(MOD_ID, "sulfur_flame"),
+            FabricParticleTypes.simple()
+    );
 
     public static final TrunkPlacerType<FallenDarkOakTrunkPlacer> FALLEN_DARK_OAK_TRUNK_PLACER =
             Registry.register(BuiltInRegistries.TRUNK_PLACER_TYPE, new ResourceLocation(MOD_ID, "fallen_dark_oak_trunk_placer"), new TrunkPlacerType<>(FallenDarkOakTrunkPlacer.CODEC)

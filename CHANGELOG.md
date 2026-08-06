@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [4.0.0+1.20.1-VanillaBackport] - 2026-08-05
+#### Changed
+- Required Vanilla Backport version is now 1.1.7 or later
+- Backported Drex's more utility for the clock
+- Backported gunpowder recipe from sulfur
+- Backported lava geysers
+- Backported sulfur torch, sulfur campfire, sulfur lantern, sulfur fire
+- Touched up some textures for above
+- Added all of InstantFeedback's items to the proper tags including common tags
+- Let's pray I didn't miss any
+
 ### [3.1.2+1.20.1-VanillaBackport] - 2026-08-04
 #### Changed
 - Required Vanilla Backport version is now 1.1.6.2 or later

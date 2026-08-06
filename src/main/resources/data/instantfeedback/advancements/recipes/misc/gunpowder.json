@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_potent_sulfur": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:potent_sulfur"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "instantfeedback:gunpowder"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_potent_sulfur"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "instantfeedback:gunpowder"
+    ]
+  }
+}

@@ -11,7 +11,14 @@
     "snow_golem.SnowGolemMixin",
     "snow_golem.SnowballMixin",
     "PaleGardenBonemealMixin",
-    "ItemEntityMixin"
+    "ItemEntityMixin",
+    "clock.ItemFrameMixin",
+    "clock.ItemMixin",
+    "clock.ItemStackMixin",
+    "geyser.PotentSulfurBlockEntityMixin",
+    "geyser.PotentSulfurBlockMixin",
+    "sulfur_fire.BaseFireBlockMixin",
+    "sulfur_fire.BlockEntityTypeAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

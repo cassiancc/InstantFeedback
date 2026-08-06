@@ -3,15 +3,13 @@ package me.drex.instantfeedback.item;
 import me.drex.instantfeedback.InstantFeedback;
 import me.drex.instantfeedback.block.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -27,6 +25,12 @@ public class ModItems {
     public static final Item PALE_BUSH = registerBlock(ModBlocks.PALE_BUSH);
     public static final Item TALL_PALE_BUSH = registerBlock(ModBlocks.TALL_PALE_BUSH);
     public static final Item CERULEAN_FROGLIGHT = registerBlock(ModBlocks.CERULEAN_FROGLIGHT);
+    public static final Item SULFUR_TORCH = registerBlock(
+            ModBlocks.SULFUR_TORCH,
+            (block, properties) -> new StandingAndWallBlockItem(block, ModBlocks.SULFUR_WALL_TORCH, properties, Direction.DOWN)
+    );
+    public static final Item SULFUR_LANTERN = registerBlock(ModBlocks.SULFUR_LANTERN);
+    public static final Item SULFUR_CAMPFIRE = registerBlock(ModBlocks.SULFUR_CAMPFIRE);
 
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS)
@@ -42,10 +46,14 @@ public class ModItems {
                     entries.addAfter(Items.LARGE_FERN, TALL_PALE_BUSH);
 
                     entries.addAfter(Items.VERDANT_FROGLIGHT, CERULEAN_FROGLIGHT);
+
                 });
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS)
                 .register((itemGroup) -> {
                     itemGroup.addAfter(Blocks.VERDANT_FROGLIGHT, CERULEAN_FROGLIGHT);
+                    itemGroup.addAfter(Items.SOUL_TORCH, SULFUR_TORCH);
+                    itemGroup.addAfter(Items.SOUL_LANTERN, SULFUR_LANTERN);
+                    itemGroup.addAfter(Items.SOUL_CAMPFIRE, SULFUR_CAMPFIRE);
                 });
     }
 
