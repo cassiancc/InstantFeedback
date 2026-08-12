@@ -31,6 +31,7 @@ public class ModItems {
     );
     public static final Item SULFUR_LANTERN = registerBlock(ModBlocks.SULFUR_LANTERN);
     public static final Item SULFUR_CAMPFIRE = registerBlock(ModBlocks.SULFUR_CAMPFIRE);
+    public static final Item GLOWING_VINES = registerBlock(ModBlocks.GLOWING_VINES);
 
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS)
@@ -38,14 +39,11 @@ public class ModItems {
 
                     entries.addAfter(Items.JACK_O_LANTERN, PALE_PUMPKIN);
                     entries.addAfter(PALE_PUMPKIN, CARVED_PALE_PUMPKIN);
-
                     entries.addBefore(Items.WITHER_ROSE, PALE_ROSE);
-
                     entries.addAfter(Items.DEAD_BUSH, PALE_BUSH);
-
                     entries.addAfter(Items.LARGE_FERN, TALL_PALE_BUSH);
-
                     entries.addAfter(Items.VERDANT_FROGLIGHT, CERULEAN_FROGLIGHT);
+                    entries.addAfter(Items.VINE, GLOWING_VINES);
 
                 });
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS)

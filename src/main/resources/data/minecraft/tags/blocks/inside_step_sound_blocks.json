@@ -1,7 +1,5 @@
 {
-  "replace": false,
   "values": [
-    "instantfeedback:sulfur_fire",
     "instantfeedback:glowing_vines"
   ]
 }

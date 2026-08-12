@@ -3,6 +3,8 @@ package me.drex.instantfeedback.config;
 public class Config {
     // Chaos Cubed
     public boolean chaosCubedLavaGeysers = true;
+    public boolean chaosCubedGunpowderRecipe = true;
+    public boolean chaosCubedSulfurFireBlockRecipes = true;
 
     // Tiny Takeover
     public boolean tinyTakeoverClockUtility = true;
@@ -18,4 +20,7 @@ public class Config {
     public boolean theGardenAwakensAmbientParticles = true;
     public boolean theGardenAwakensRemoveMobSpawn = true;
     public boolean theGardenAwakensBuffCreaking = true;
+
+    // Trails & Tales
+    public boolean trailsTalesSnifferDigGlowingVines = true;
 }

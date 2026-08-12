@@ -37,7 +37,8 @@ public class InstantFeedbackClient implements ClientModInitializer {
                 ModBlocks.SULFUR_TORCH,
                 ModBlocks.SULFUR_WALL_TORCH,
                 ModBlocks.SULFUR_LANTERN,
-                ModBlocks.SULFUR_CAMPFIRE
+                ModBlocks.SULFUR_CAMPFIRE,
+                ModBlocks.GLOWING_VINES
         );
 
         ItemProperties.register(Items.CLOCK, new ResourceLocation("time"), (stack, level, entity, seed) -> {

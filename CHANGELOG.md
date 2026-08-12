@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [4.1.1+1.20.1-VanillaBackport] - 2026-08-11
+#### Changed
+- Config options to disable chaos cubed recipes
+- Glowing vines can be composted
+
+### [4.1.0+1.20.1-VanillaBackport] - 2026-08-11
+#### Changed
+- Food cooked on sulfur campfires gives nausea
+- Added glowing vines (leaked sniffer plant)
+
 ### [4.0.0+1.20.1-VanillaBackport] - 2026-08-05
 #### Changed
 - Required Vanilla Backport version is now 1.1.7 or later

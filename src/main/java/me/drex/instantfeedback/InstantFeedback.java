@@ -12,7 +12,9 @@ import me.drex.instantfeedback.worldgen.ModVegetationPlacements;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +22,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -35,6 +38,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.gameevent.GameEvent;
 import me.drex.instantfeedback.block.CarvedPalePumpkinBlock;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,6 +148,23 @@ public class InstantFeedback implements ModInitializer {
         ComposterBlock.COMPOSTABLES.put(ModItems.PALE_ROSE.asItem(), 0.65F);
         ComposterBlock.COMPOSTABLES.put(ModItems.PALE_PUMPKIN.asItem(), 0.65F);
         ComposterBlock.COMPOSTABLES.put(ModItems.CARVED_PALE_PUMPKIN.asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.GLOWING_VINES.asItem(), 0.5F);
+
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+            if (BuiltInLootTables.SNIFFER_DIGGING.equals(id)) {
+                if (ConfigManager.config().trailsTalesSnifferDigGlowingVines) {
+                    tableBuilder.modifyPools(builder -> builder.add(LootItem.lootTableItem(ModItems.GLOWING_VINES)));
+                }
+            }
+        });
+
+        ResourceConditions.register(new ResourceLocation("instantfeedback", "config"), jsonObj -> {
+            String option = jsonObj.has("option")
+                    ? GsonHelper.getAsString(jsonObj, "option")
+                    : GsonHelper.getAsString(jsonObj, "options");
+
+            return ConfigManager.enabledFeatures().contains(option);
+        });
 
         ModCauldronInteraction.bootstrap();
     }

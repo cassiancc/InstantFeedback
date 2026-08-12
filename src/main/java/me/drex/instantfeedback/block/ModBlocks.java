@@ -23,6 +23,20 @@ import java.util.function.Function;
 
 public class ModBlocks {
 
+    public static final Block GLOWING_VINES = register(
+            "glowing_vines",
+            GlowLichenBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
+                    .replaceable()
+                    .noCollission()
+                    .strength(0.2F)
+                    .sound(SoundType.VINE)
+                    .lightLevel(GlowLichenBlock.emission(4))
+                    .ignitedByLava()
+                    .pushReaction(PushReaction.DESTROY)
+    );
+
     public static final Block SULFUR_TORCH = register(
             "sulfur_torch",
             properties -> new TorchBlock(properties, InstantFeedback.SULFUR_FLAME),

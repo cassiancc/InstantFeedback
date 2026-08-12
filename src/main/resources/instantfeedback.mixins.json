@@ -18,7 +18,9 @@
     "geyser.PotentSulfurBlockEntityMixin",
     "geyser.PotentSulfurBlockMixin",
     "sulfur_fire.BaseFireBlockMixin",
-    "sulfur_fire.BlockEntityTypeAccessor"
+    "sulfur_fire.BlockEntityTypeAccessor",
+    "sulfur_fire.CampfireBlockEntityMixin",
+    "sulfur_fire.LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
