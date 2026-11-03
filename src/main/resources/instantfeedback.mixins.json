@@ -13,6 +13,7 @@
     "PaleGardenBonemealMixin",
     "ItemEntityMixin",
     "clock.ItemFrameMixin",
+    "clock.ItemFrameOutputMixin",
     "clock.ItemMixin",
     "clock.ItemStackMixin",
     "geyser.PotentSulfurBlockEntityMixin",
