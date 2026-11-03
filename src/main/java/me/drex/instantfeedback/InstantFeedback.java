@@ -1,6 +1,6 @@
 package me.drex.instantfeedback;
 
-import com.blackgear.vanillabackport.common.level.entities.animal.PigVariant;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.pig.PigVariant;
 import me.drex.instantfeedback.block.ModBlocks;
 import me.drex.instantfeedback.config.ConfigManager;
 import me.drex.instantfeedback.entity.ModFrogVariants;
@@ -127,7 +127,7 @@ public class InstantFeedback implements ModInitializer {
             );
 
             ResourceKey<net.minecraft.world.level.levelgen.placement.PlacedFeature> LEAF_LITTER_KEY =
-                    ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation("minecraft", "leaf_litter"));
+                    ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation("minecraft", "leaf_litter_thick"));
 
             BiomeModifications.addFeature(
                     context -> context.getBiomeKey().equals(PALE_GARDEN),

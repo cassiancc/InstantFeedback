@@ -46,7 +46,7 @@ public class FallenDarkOakTrunkPlacer extends TrunkPlacer {
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
         Direction fallDirection = Direction.values()[randomSource.nextInt(4) + 2];
 
-        //BlockPos below = origin.below();
+        // BlockPos below = origin.below();
 
 //        setDirtAt(levelSimulatedReader, biConsumer, randomSource, below, treeConfiguration);
 //        setDirtAt(levelSimulatedReader, biConsumer, randomSource, below.east(), treeConfiguration);

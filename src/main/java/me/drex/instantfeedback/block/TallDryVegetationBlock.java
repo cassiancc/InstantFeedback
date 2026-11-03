@@ -16,7 +16,7 @@ public class TallDryVegetationBlock extends DoublePlantBlock {
                 || state.is(BlockTags.SAND)
                 || state.is(Blocks.TERRACOTTA)
                 || state.is(BlockTags.TERRACOTTA)
-                || state.is(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_MOSS_BLOCK.get())
+                || state.is(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_MOSS_BLOCK.get())
                 || super.mayPlaceOn(state, level, pos);
     }
 }

@@ -27,7 +27,7 @@ public abstract class InstrumentItemMixin {
 
         if (!instantfeedback$checkedForMod) {
             try {
-                Class<?> clazz = Class.forName("com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast");
+                Class<?> clazz = Class.forName("com.blackgear.vanillabackport.common.level.entities.mob.animal.happy_ghast.HappyGhast");
                 if (Entity.class.isAssignableFrom(clazz)) {
                     instantfeedback$happyGhastClass = (Class<? extends Entity>) clazz;
                 }

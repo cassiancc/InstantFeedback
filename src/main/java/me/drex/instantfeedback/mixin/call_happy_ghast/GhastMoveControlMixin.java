@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(targets = "com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast$GhastMoveControl")
+@Mixin(targets = "com.blackgear.vanillabackport.common.level.entities.mob.animal.happy_ghast.HappyGhast$GhastMoveControl")
 public abstract class GhastMoveControlMixin {
     @Shadow
     @Final
-    private com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast ghast;
+    private com.blackgear.vanillabackport.common.level.entities.mob.animal.happy_ghast.HappyGhast ghast;
 
     @Shadow
     protected abstract boolean canReach(Vec3 vec3);
@@ -28,10 +28,10 @@ public abstract class GhastMoveControlMixin {
     private int instantfeedback$callerTicks = -1;
 
     @Inject(
-            method = "Lcom/blackgear/vanillabackport/common/level/entities/happyghast/HappyGhast$GhastMoveControl;tick()V",
+            method = "tick()V",
             at = @At(
                     value = "FIELD",
-                    target = "Lcom/blackgear/vanillabackport/common/level/entities/happyghast/HappyGhast$GhastMoveControl;floatDuration:I",
+                    target = "Lcom/blackgear/vanillabackport/common/level/entities/mob/animal/happy_ghast/HappyGhast$GhastMoveControl;floatDuration:I",
                     ordinal = 0,
                     opcode = Opcodes.GETFIELD
             ),

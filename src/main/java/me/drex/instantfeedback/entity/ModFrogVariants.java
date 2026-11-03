@@ -1,6 +1,6 @@
 package me.drex.instantfeedback.entity;
 
-import com.blackgear.vanillabackport.common.level.entities.animal.FrogDataVariant;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.frog.FrogDataVariant;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

@@ -1,6 +1,6 @@
 package me.drex.instantfeedback.mixin.geyser;
 
-import com.blackgear.vanillabackport.common.level.blockentities.PotentSulfurBlockEntity;
+import com.blackgear.vanillabackport.common.level.block_entities.PotentSulfurBlockEntity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.drex.instantfeedback.config.ConfigManager;

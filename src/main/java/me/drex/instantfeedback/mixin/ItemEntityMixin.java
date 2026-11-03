@@ -1,6 +1,6 @@
 package me.drex.instantfeedback.mixin;
 
-import com.blackgear.vanillabackport.common.api.variant.VariantDataHolder;
+import com.blackgear.vanillabackport.common.api.modules.mob_variant.VariantDataHolder;
 import me.drex.instantfeedback.block.ModBlocks;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.animal.frog.Frog;
@@ -23,8 +23,8 @@ public abstract class ItemEntityMixin {
             method = "<init>(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/item/ItemStack;)V",
             at = @At("RETURN")
     )
-    private void instantfeedback$transformOchreOnSpawn(Level world, double x, double y, double z, ItemStack stack, CallbackInfo ci) {
-        if (stack.is(Items.OCHRE_FROGLIGHT)) {
+    private void instantfeedback$transformFroglightOnSpawn(Level world, double x, double y, double z, ItemStack stack, CallbackInfo ci) {
+        if (stack.is(Items.OCHRE_FROGLIGHT) || stack.is(Items.PEARLESCENT_FROGLIGHT) || stack.is(Items.VERDANT_FROGLIGHT)) {
             List<Frog> frogs = world.getEntitiesOfClass(Frog.class, new AABB(x - 1.5, y - 1.5, z - 1.5, x + 1.5, y + 1.5, z + 1.5));
 
             for (Frog frog : frogs) {

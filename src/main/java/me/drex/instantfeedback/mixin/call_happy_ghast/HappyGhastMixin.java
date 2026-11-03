@@ -2,7 +2,7 @@ package me.drex.instantfeedback.mixin.call_happy_ghast;
 
 import me.drex.instantfeedback.duck.IHappyGhast;
 import net.minecraft.world.phys.Vec3;
-import com.blackgear.vanillabackport.common.level.entities.happyghast.HappyGhast;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.happy_ghast.HappyGhast;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

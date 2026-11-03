@@ -30,8 +30,8 @@ import net.minecraft.world.level.levelgen.feature.featuresize.ThreeLayersFeature
 import net.minecraft.world.level.levelgen.feature.foliageplacers.DarkOakFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import com.blackgear.vanillabackport.common.worldgen.treedecorators.CreakingHeartDecorator;
-import com.blackgear.vanillabackport.common.worldgen.treedecorators.PaleMossDecorator;
+import com.blackgear.vanillabackport.common.level.worldgen.tree.decorators.CreakingHeartDecorator;
+import com.blackgear.vanillabackport.common.level.worldgen.tree.decorators.PaleMossDecorator;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import java.util.List;
@@ -71,8 +71,8 @@ public class ModVegetationFeatures {
         /* FeatureUtils.register(
             bootstrapContext, PILE_PALE_LEAVES, Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(
                 Feature.SIMPLE_BLOCK,
-                new SimpleBlockConfiguration(BlockStateProvider.simple(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT, true))),
-                List.of(Blocks.GRASS_BLOCK, com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_LEAVES.get())
+                new SimpleBlockConfiguration(BlockStateProvider.simple(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_OAK_LEAVES.get().defaultBlockState().setValue(LeavesBlock.PERSISTENT, true))),
+                List.of(Blocks.GRASS_BLOCK, com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_OAK_LEAVES.get())
             )
         ); */
 
@@ -87,7 +87,7 @@ public class ModVegetationFeatures {
                         .add(ModBlocks.PALE_ROSE.defaultBlockState(), 1)
                         .add(ModBlocks.PALE_BUSH.defaultBlockState(), 5)
                         .add(ModBlocks.TALL_PALE_BUSH.defaultBlockState(), 5)
-                        .add(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_MOSS_CARPET.get().defaultBlockState(), 10)
+                        .add(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_MOSS_CARPET.get().defaultBlockState(), 10)
                         .build()
                 )),
                 BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(Direction.DOWN.getNormal(), List.of(Blocks.GRASS_BLOCK)))
@@ -100,9 +100,9 @@ public class ModVegetationFeatures {
             FALLEN_PALE_OAK_CREAKING,
             Feature.TREE,
             new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_LOG.get()),
+                BlockStateProvider.simple(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_OAK_LOG.get()),
                 new FallenDarkOakTrunkPlacer(6, 2, 1),
-                BlockStateProvider.simple(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_LEAVES.get()),
+                BlockStateProvider.simple(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_OAK_LEAVES.get()),
                 new DarkOakFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0)),
                 new ThreeLayersFeatureSize(1, 1, 0, 1, 2, OptionalInt.empty())
             )

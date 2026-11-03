@@ -10,8 +10,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import com.blackgear.vanillabackport.common.registries.ModEntityTypes;
-import com.blackgear.vanillabackport.common.registries.ModItems;
+import com.blackgear.vanillabackport.common.registries.entities.ModEntityTypes;
+import com.blackgear.vanillabackport.common.registries.items.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -46,7 +46,7 @@ public class ModAdvancementProvider extends FabricAdvancementProvider {
                                 EntityPredicate.wrap(
                                         EntityPredicate.Builder.entity()
                                                 .vehicle(EntityPredicate.Builder.entity()
-                                                        .of(ModEntityTypes.HAPPY_GHAST)
+                                                        .of(ModEntityTypes.HAPPY_GHAST.get())
                                                         .located(LocationPredicate.Builder.location()
                                                                 .setDimension(Level.END)
                                                                 .build())

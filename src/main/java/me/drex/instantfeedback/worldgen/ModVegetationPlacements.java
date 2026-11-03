@@ -32,12 +32,12 @@ public class ModVegetationPlacements {
 
         BlockPredicate airOrLeaves = BlockPredicate.anyOf(
                 BlockPredicate.ONLY_IN_AIR_PREDICATE,
-                BlockPredicate.matchesBlocks(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_LEAVES.get())
+                BlockPredicate.matchesBlocks(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_OAK_LEAVES.get())
         );
 
         BlockPredicate notLog = BlockPredicate.not(
                 BlockPredicate.matchesBlocks(
-                        com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_LOG.get()
+                        com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_OAK_LOG.get()
                 )
         );
 
@@ -71,7 +71,7 @@ public class ModVegetationPlacements {
                 bootstrapContext,
                 FALLEN_PALE_OAK_CREAKING,
                 fallenPaleOakCreaking,
-                PlacementUtils.filteredByBlockSurvival(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_OAK_SAPLING.get())
+                PlacementUtils.filteredByBlockSurvival(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_OAK_SAPLING.get())
         );
 
         PlacementUtils.register(

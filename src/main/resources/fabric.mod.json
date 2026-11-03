@@ -12,8 +12,8 @@
 	"icon": "assets/instantfeedback/icon.png",
 	"contact": {
 		"homepage": "https://modrinth.com/project/instant-feedback-backport",
-		"issues": "https://github.com/CashMoney30/InstantFeedback/issues",
-		"sources": "https://github.com/CashMoney30/InstantFeedback/"
+		"issues": "https://github.com/cassiancc/InstantFeedback/issues",
+		"sources": "https://github.com/cassiancc/InstantFeedback/"
 	},
 	"environment": "*",
 	"entrypoints": {
@@ -40,6 +40,6 @@
 		"fabricloader": ">=0.16.10",
 		"java": ">=17",
 		"fabric-api": "*",
-		"vanillabackport": ">=1.1.7"
+		"vanillabackport": ">=1.2"
 	}
 }

@@ -146,7 +146,7 @@ public class ModBlocks {
     );
 
     public static final Block POTTED_CACTUS_FLOWER = register("potted_cactus_flower",
-        properties -> new FlowerPotBlock(com.blackgear.vanillabackport.common.registries.ModBlocks.CACTUS_FLOWER.get(), properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+        properties -> new FlowerPotBlock(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.CACTUS_FLOWER.get(), properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
 
     public static final Block POTTED_ROSE_BUSH = register("potted_rose_bush",
         properties -> new FlowerPotBlock(Blocks.ROSE_BUSH, properties), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));

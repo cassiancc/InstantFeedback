@@ -5,8 +5,7 @@
   "client": [
     "AtmosphericFogEnvironmentMixin",
     "snow_golem.SnowGolemHeadLayerMixin",
-    "HangingMossBlockMixin",
-    "vanilla_backport_fixes.FixVanillaBackportMusicFade"
+    "HangingMossBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,7 +1,7 @@
 package me.drex.instantfeedback.mixin;
 
 import me.drex.instantfeedback.config.ConfigManager;
-import com.blackgear.vanillabackport.common.level.entities.creaking.Creaking;
+import com.blackgear.vanillabackport.common.level.entities.mob.monster.creaking.Creaking;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.spongepowered.asm.mixin.Mixin;

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-import static com.blackgear.vanillabackport.common.registries.ModBiomes.PALE_GARDEN;
+import static com.blackgear.vanillabackport.common.registries.worldgen.ModBiomes.PALE_GARDEN;
 
 @Mixin(value = HangingMossBlock.class)
 public abstract class HangingMossBlockMixin {

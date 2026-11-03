@@ -25,7 +25,7 @@ public class DryVegetationBlock extends DeadBushBlock implements BonemealableBlo
                 || state.is(BlockTags.SAND)
                 || state.is(Blocks.TERRACOTTA)
                 || state.is(Blocks.FARMLAND)
-                || state.is(com.blackgear.vanillabackport.common.registries.ModBlocks.PALE_MOSS_BLOCK.get())
+                || state.is(com.blackgear.vanillabackport.common.registries.blocks.ModBlocks.PALE_MOSS_BLOCK.get())
                 || super.mayPlaceOn(state, level, pos);
     }
     @Override

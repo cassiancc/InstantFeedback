@@ -1,7 +1,7 @@
 package me.drex.instantfeedback.datagen;
 
-import com.blackgear.vanillabackport.common.level.entities.animal.FrogDataVariant;
-import com.blackgear.vanillabackport.common.level.entities.animal.PigVariant;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.frog.FrogDataVariant;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.pig.PigVariant;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.concurrent.CompletableFuture;
 
 
-// For some reason the data generation for the pig and frog variants is broken. But whatever we ball
+// The data generation for the pig and frog variants is broken
 public class ModVariantProvider implements DataProvider {
     protected final FabricDataOutput output;
     private final CompletableFuture<HolderLookup.Provider> registryLookup;
@@ -26,22 +26,22 @@ public class ModVariantProvider implements DataProvider {
             var biomeLookup = registries.lookupOrThrow(net.minecraft.core.registries.Registries.BIOME);
 
             PigVariant muddyPig = new PigVariant(
-                    new com.blackgear.vanillabackport.common.api.variant.ModelAndTexture<>(
+                    new com.blackgear.vanillabackport.common.api.modules.mob_variant.ModelAndTexture<>(
                             PigVariant.ModelType.NORMAL,
                             new ResourceLocation("instantfeedback", "entity/pig/muddy_pig")
                     ),
-                    com.blackgear.vanillabackport.common.api.variant.spawn.SpawnPrioritySelectors.single(
-                            new com.blackgear.vanillabackport.common.api.variant.spawn.check.BiomeCheck(
+                    com.blackgear.vanillabackport.common.api.modules.mob_variant.spawn.SpawnPrioritySelectors.single(
+                            new com.blackgear.vanillabackport.common.api.modules.mob_variant.spawn.check.BiomeCheck(
                                     net.minecraft.core.HolderSet.direct(biomeLookup.getOrThrow(net.minecraft.world.level.biome.Biomes.SWAMP))
                             ), 1)
             );
 
             FrogDataVariant darkFrog = new FrogDataVariant(
-                    new com.blackgear.vanillabackport.common.api.variant.ClientAsset(
+                    new com.blackgear.vanillabackport.common.api.modules.mob_variant.ClientAsset(
                             new ResourceLocation("instantfeedback", "entity/frog/dark_frog")
                     ),
-                    com.blackgear.vanillabackport.common.api.variant.spawn.SpawnPrioritySelectors.single(
-                            new com.blackgear.vanillabackport.common.api.variant.spawn.check.BiomeCheck(
+                    com.blackgear.vanillabackport.common.api.modules.mob_variant.spawn.SpawnPrioritySelectors.single(
+                            new com.blackgear.vanillabackport.common.api.modules.mob_variant.spawn.check.BiomeCheck(
                                     net.minecraft.core.HolderSet.direct(
                                             biomeLookup.getOrThrow(net.minecraft.world.level.biome.Biomes.DARK_FOREST),
                                             biomeLookup.getOrThrow(net.minecraft.world.level.biome.Biomes.DEEP_DARK)
